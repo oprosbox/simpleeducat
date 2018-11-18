@@ -3,12 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/simpleeducat/library/youtube_funct.php</file>
+            <file>file:/C:/simpleeducat/model/data_seach/youtube/WSearch_base.php</file>
+            <file>file:/C:/simpleeducat/model/data_seach/search.php</file>
+            <file>file:/C:/simpleeducat/model/data_seach/youtube/WSearchByVideolist.php</file>
+            <file>file:/C:/simpleeducat/index.php</file>
+            <file>file:/C:/simpleeducat/model/data_seach/youtube/WSearchByVideoGroup.php</file>
+            <file>file:/C:/simpleeducat/config.php</file>
             <file>file:/C:/simpleeducat/controller/commands.php</file>
-            <file>file:/C:/simpleeducat/library/WSearchDirectByWords.php</file>
+            <file>file:/C:/simpleeducat/model/data_seach/youtube/WSearchByVideoChanel.php</file>
             <file>file:/C:/simpleeducat/index%20-%20копия.php</file>
-            <file>file:/C:/simpleeducat/library/WSearch_base.php</file>
-            <file>file:/C:/simpleeducat/library/WSearchReverseByWords.php</file>
+            <file>file:/C:/simpleeducat/model/data_seach/youtube/WAbstractSearch.php</file>
+            <file>file:/C:/simpleeducat/model/data_seach/youtube/WSearchByChannel.php</file>
         </group>
     </open-files>
 </project-private>

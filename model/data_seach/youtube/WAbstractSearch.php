@@ -163,6 +163,24 @@ abstract class WAbstractSearch extends YoutubeObject {
             return $result_youtube['items'];
         }
     }
+    
+    protected function search_channel_statistics($id_channel, $maxResults = 50) {
+        if (!empty($this->youtube)) {
+            $param = array('maxResults' => $maxResults,
+                'id' => $id_channel);
+            $result_youtube = $this->youtube->channels->listChannels("snippet,statistics,contentDetails", $param);
+            return $result_youtube['items'];
+        }
+    }
+    
+    protected function search_playlist_statistics($id_playlist, $maxResults = 50) {
+        if (!empty($this->youtube)) {
+            $param = array('maxResults' => $maxResults,
+                'id' => $id_playlist);
+            $result_youtube = $this->youtube->playlists->listPlaylists("snippet", $param);
+            return $result_youtube['items'];
+        }
+    }
 
     protected function search_channel_by_idPlaylist($id_channel) {
         if (!empty($this->youtube)) {
