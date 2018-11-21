@@ -25,9 +25,23 @@ class WLeafContent extends WContent implements ITreeContent {
 }
 
 class WCompositeContent extends WContent implements ITreeContent {
-  
 
-    protected $content=[];
+    protected $content = [];
+    protected $pos = 0;
+
+    public function to_begin() {
+        $this->pos = 0;
+    }
+
+    public function get_next() {
+        if (!empty($this->content[$this->pos])) {
+            $content = $this->content[$this->pos];
+            $this->pos += ($this->pos + 1) % count($this->content);
+            return $this->content;
+        } else {
+            return null;
+        }
+    }
 
     public function add($composit) {
         $this->content[] = $composit;
@@ -56,8 +70,43 @@ class WCompositeContent extends WContent implements ITreeContent {
 
 }
 
-
 class WCompositeRequest extends WCompositeContent implements IRequest {
+
+    public function find_granny(&$search_obj) {
+        foreach ($this->content as $key => $value) {
+            $tree_youtube = null;
+            set_time_limit(300);
+            if ($value->type === 'youtube#video') {
+                $tree_youtube = $search_obj->search_by_idvideo_channel($value);
+            }
+            if ($tree_youtube !== null) {
+                $this->content[$key] = $tree_youtube;
+            }
+        }
+    }
+
+    public function find_parent(&$search_obj) {
+        foreach ($this->content as $key => $value) {
+            $tree_youtube = null;
+            set_time_limit(300);
+            switch ($value->type) {
+                case 'youtube#video': {
+                        $tree_youtube = $search_obj->search_by_idvideo_playlist($value);
+                        break;
+                    }
+                case 'youtube#playlist': {
+                        $tree_youtube = $search_obj->search_by_idplaylist_channel($value);
+                        break;
+                    }
+                default : {
+                        continue;
+                    }
+            }
+            if ($tree_youtube !== null) {
+                $this->content[$key] = $tree_youtube;
+            }
+        }
+    }
 
     public function update_statistics(&$search_obj) {
         $search_obj->get_statistics($this);
@@ -65,7 +114,7 @@ class WCompositeRequest extends WCompositeContent implements IRequest {
             $value->update_statistics($search_obj);
         }
     }
- 
+
     public function build_tree(&$search_obj) {
         $search_obj->get_statistics($this);
         foreach ($this->content as $key => $value) {
@@ -74,46 +123,42 @@ class WCompositeRequest extends WCompositeContent implements IRequest {
             switch ($value->type) {
                 case 'youtube#channel': {
                         $tree_youtube = $search_obj->search_by_idchannel_playlists($value);
-                        //var_dump($value->id);
-                       // echo '<p>' . $key . ' youtube#channel count=' . count($tree_youtube) . '</p>';
                         break;
                     }
                 case 'youtube#playlist': {
                         $tree_youtube = $search_obj->search_by_idplaylist_videos($value);
                         break;
-                        // echo '<p>' . $key . ' youtube#playlist count=' . count($tree_youtube) . '</p>';
                     }
                 default : {
                         continue;
                     }
             }
-            if ($tree_youtube!==null) {
+            if ($tree_youtube !== null) {
                 $this->content[$key] = $tree_youtube;
                 $this->content[$key]->build_tree($search_obj);
             }
         }
     }
 
-  //  public function view(&$body){
- //       $report.='<tr><td rowspan=\"'.count($this->content).'\">'.$this->id.'</td>';
-  //      foreach ($this->content as $key => $value) {
-  //        $report.='<tr>';
-  //        $value->view($report); 
-  //        $report.='</tr>';
-  //      }
-  //      $report=preg_replace("<tr>", " ", $report,1);
-  //      $body.=$report;
-  //  }
-       public function view(&$body){
-       $report='<div class="coll"><div class="row_left">'.$this->id.'</div><div class="row_right">';
+    public function view(&$body) {
+        $report = '<div class="coll"><div class="row_left">' . $this->id . '</div><div class="row_right">';
         foreach ($this->content as $value) {
-         $value->view($report); 
-      }
-      $body.=$report.'</div></div>';
-   }
+            $value->view($report);
+        }
+        $body .= $report . '</div></div>';
+    }
+
 }
 
 class WLeafRequest extends WLeafContent implements IRequest {
+
+    public function find_granny(&$search_obj) {
+        
+    }
+
+    public function find_parent(&$search_obj) {
+        
+    }
 
     public function update_statistics(&$search_obj) {
         $search_obj->get_statistics($this);
@@ -123,12 +168,8 @@ class WLeafRequest extends WLeafContent implements IRequest {
         $search_obj->get_statistics($this);
     }
 
-   // public function view(&$body){
-   // $body.="<td>$this->id<td>";   
-   // }
-    
-    public function view(&$body){
-    $body.='<div class="row_end">'.$this->id.'</div>';   
+    public function view(&$body) {
+        $body .= '<div class="row_end">' . $this->id . '</div>';
     }
-}
 
+}

@@ -67,9 +67,6 @@ class WSearchBase extends WAbstractSearch implements ISearch {
                         break;
                     }
                 case "youtube#channel": {
-                        if ($key > 0) {
-                            return $compositeHead;
-                        }
                         $composite = $this->factory_list->create_composit();
                         $composite->id = $value['id']['channelId'];
                         $composite->type = $value['id']['kind'];
@@ -91,7 +88,6 @@ class WSearchBase extends WAbstractSearch implements ISearch {
 
     public function search_by_idchannel_playlists(WContent $channel) {
         $compositeHead = $this->factory_list->create_composit($channel);
-
         $retres = $this->search_lists_by_idChannel($channel->id);
         if ($retres === null) {
             return null;
@@ -160,19 +156,19 @@ class WSearchBase extends WAbstractSearch implements ISearch {
         }
     }
 
-    public function search_by_keyword($keyword, $type_content) {
+    public function search_by_keyword($keyword, $type_content,$count) {
         $result = array();
         switch ($type_content) {
             case "youtube#video": {
-                    $result = $this->search_video($keyword);
+                    $result = $this->search_video($keyword,$count);
                     break;
                 }
             case "youtube#playlist": {
-                    $result = $this->search_playlist($keyword);
+                    $result = $this->search_playlist($keyword,$count);
                     break;
                 }
             case "youtube#channel": {
-                    $result = $this->search_chanel($keyword);
+                    $result = $this->search_chanel($keyword,$count);
                     break;
                 }
         }

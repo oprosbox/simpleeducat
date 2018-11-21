@@ -12,8 +12,8 @@ class WSearchByChannel implements IStratSearch {
         return $this;
     }
 
-    public function search_content($keyword) {
-        $this->list = $this->search_base->search_by_keyword($keyword,"youtube#channel");
+    public function search_content($keyword,$count=10) {
+        $this->list = $this->search_base->search_by_keyword($keyword,"youtube#channel",$count);
         $this->list->build_tree($this->search_base);
     }
 
@@ -21,7 +21,6 @@ class WSearchByChannel implements IStratSearch {
         $view='';
         $this->list->view($view);
         if($view==''){$view="not found";}
-        //else{$view="<table border=\"1\">$view</table>";}
         return $view;
     }
 

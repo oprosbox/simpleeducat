@@ -15,7 +15,7 @@ $youtube_search->create();
     
     $channel=new WSearchByChannel();
     $channel->set_search_base($youtube_search);
-    $channel->search_content($keyword);
+    $channel->search_content($keyword,2);
     $htmlBody=$channel->get_view();
     //$htmlBody = '<table border="1px">'
     //    . '<tr><td rowspan="3">gfgfgfgfgfgfgf</td><td>fffffffffff</td>'

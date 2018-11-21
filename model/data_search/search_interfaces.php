@@ -27,7 +27,7 @@ interface ISearch {
 
     public function get_statistics(WContent &$content);
 
-    public function search_by_keyword($keyword, $type_content);
+    public function search_by_keyword($keyword, $type_content,$count);
 }
 
 interface IStratSearch {

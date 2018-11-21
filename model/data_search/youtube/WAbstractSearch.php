@@ -37,122 +37,95 @@ class YoutubeObject {
 
 }
 
+class WAbstractSearch extends YoutubeObject {
 
-abstract class WAbstractSearch extends YoutubeObject {
-
-    private function search_by_question($param, $maxResults = 0) {
-        $result_return=array();
-        if ($maxResults === 0) {
-            $param['maxResults'] = 50;
-            do {
-                $result_question = $this->youtube->search->listSearch("id,snippet", $param);
-                $param['pageToken'] = $result_question['nextPageToken'];
-                foreach ($result_question['items'] as $resource)
-                    $result_return[] = $resource;
-            } while ($result_question['nextPageToken'] !== null);
-        } else {
-            $result_question = $this->youtube->search->listSearch("id,snippet", $param);
-            foreach ($result_question['items'] as $resource)
-                    $result_return[] = $resource;
+       private function search_simple($object, $funct, $part, $param, $maxResults = 0) {
+        $result_return = array();
+        if ($maxResults <= 0) {
+            $maxResults = 5000000;
         }
+        do {
+            if ($maxResults - 50 >= 0) {
+                $param['maxResults'] = 50;
+            } else {
+                $param['maxResults'] = $maxResults % 50;
+            }
+            $maxResults -= 50;
+            $result_question = $object->$funct($part, $param);
+            $param['pageToken'] = $result_question['nextPageToken'];
+            foreach ($result_question['items'] as $resource)
+                $result_return[] = $resource;
+        } while (($maxResults > 0) && ($result_question['nextPageToken'] !== null));
         return $result_return;
     }
 
     protected function search_video($question, $duration = 'long', $maxResults = 0) {
         if (!empty($this->youtube)) {
-            $param = array("maxResults" => $maxResults,
-                "videoDuration" => $duration,
+            $param = array("videoDuration" => $duration,
                 "q" => $question,
                 "type" => "video");
-            $result_return = array();
-            $result_return = $this->search_by_question($param, $maxResults);
+             $funct="listSearch";
+            $part="id,snippet";
+            $object=$this->youtube->search;
+            $result_return = $this->search_simple($object,$funct,$part,$param,$maxResults);
             return $result_return;
         }
     }
 
     protected function search_chanel($question, $maxResults = 0) {
         if (!empty($this->youtube)) {
-            $param = array("maxResults" => $maxResults,
-                "q" => $question,
+            $param = array("q" => $question,
                 "type" => "channel");
-            $result_return = array();
-            $result_return = $this->search_by_question($param, $maxResults);
+            $funct="listSearch";
+            $part="id,snippet";
+            $object=$this->youtube->search;
+            $result_return = $this->search_simple($object,$funct,$part,$param,$maxResults);
         }
         return $result_return;
     }
 
     protected function search_playlist($question, $maxResults = 0) {
         if (!empty($this->youtube)) {
-            $param = array("maxResults" => $maxResults,
-                "pageToken" => '',
+            $param = array("pageToken" => '',
                 "q" => $question,
                 "type" => "playlist");
-            $result_return = array();
-            $result_return = $this->search_by_question($param, $maxResults);
+            $funct="listSearch";
+            $part="id,snippet";
+            $object=$this->youtube->search;
+            $result_return = $this->search_simple($object,$funct,$part,$param,$maxResults);
             return $result_return;
         }
     }
 
     protected function search_video_by_idPlayList($playlistId, $maxResults = 0) {
         if (!empty($this->youtube)) {
-            $param = array('maxResults' => $maxResults,
-                'playlistId' => $playlistId);
-            $result_return = array();
-            if ($maxResults === 0) {
-                $param['maxResults'] = 50;
-                do {
-                    $result_question = $this->youtube->playlistItems->listPlaylistItems("snippet,contentDetails", $param);
-                    $param['pageToken'] = $result_question['nextPageToken'];
-                    foreach ($result_question['items'] as $resource)
-                        $result_return[] = $resource;
-                } while ($result_question['nextPageToken'] !== null);
-            } else {
-                $result_question = $this->youtube->playlistItems->listPlaylistItems("snippet,contentDetails", $param);
-                $result_return = $result_question['items'];
-            }
+            $param = array('playlistId' => $playlistId);
+            $funct="listPlaylistItems";
+            $part="snippet,contentDetails";
+            $object=$this->youtube->playlistItems;
+            $result_return = $this->search_simple($object,$funct,$part,$param,$maxResults);
             return $result_return;
         }
     }
 
     protected function search_playList_by_idVideo($id_video, $maxResults = 0) {
         if (!empty($this->youtube)) {
-            $param = array('maxResults' => $maxResults,
-                'videoId' => $id_video);
-            $result_return = array();
-            if ($maxResults === 0) {
-                $param['maxResults'] = 50;
-                do {
-                    $result_question = $this->youtube->playlistItems->listPlaylistItems("snippet,playlistId", $param);
-                    $param['pageToken'] = $result_question['nextPageToken'];
-                    foreach ($result_question['items'] as $resource)
-                        $result_return[] = $resource;
-                } while ($result_question['nextPageToken'] !== null);
-            } else {
-                $result_question = $this->youtube->playlistItems->listPlaylistItems("snippet,playlistId", $param);
-                $result_return = $result_question['items'];
-            }
+            $param = array('videoId' => $id_video);
+           $funct="listPlaylistItems";
+            $part="snippet,playlistId";
+            $object=$this->youtube->playlistItems;
+            $result_return = $this->search_simple($object,$funct,$part,$param,$maxResults);
             return $result_return;
         }
     }
 
     protected function search_lists_by_idChannel($id_channel, $maxResults = 0) {
         if (!empty($this->youtube)) {
-            $param = array('maxResults' => $maxResults,
-                'channelId' => $id_channel);
-            $result_return = array();
-            if ($maxResults === 0) {
-                $param['maxResults'] = 50;
-                do {
-                    $result_question = $this->youtube->playlists->listPlaylists("id,snippet", $param);
-                    $param['pageToken'] = $result_question['nextPageToken'];
-                    foreach ($result_question['items'] as $resource)
-                        $result_return[] = $resource;
-                } while ($result_question['nextPageToken'] !== null);
-            } else {
-                $result_question = $this->youtube->playlists->listPlaylists("id,snippet", $param);
-                $result_return= $result_question['items'];
-            }
-            
+            $param = array('channelId' => $id_channel);
+            $funct="listPlaylists";
+            $part="id,snippet";
+            $object=$this->youtube->playlists;
+            $result_return = $this->search_simple($object,$funct,$part,$param,$maxResults);
             return $result_return;
         }
     }
@@ -162,7 +135,6 @@ abstract class WAbstractSearch extends YoutubeObject {
             $param = array('maxResults' => $maxResults,
                 'id' => $id_video);
             $result_youtube = $this->youtube->videos->listVideos("snippet,statistics,contentDetails", $param);
-            if($result_youtube['items']===null){echo '$result_youtube[\'items\']=null';}
             return $result_youtube['items'][0];
         }
     }

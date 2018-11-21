@@ -71,6 +71,10 @@ interface IRequest extends ITreeContent {
     public function update_statistics(&$search_obj);
 
     public function build_tree(&$search_obj);
+    
+    public function find_parent(&$search_obj);
+    
+    public function find_granny(&$search_obj);
 
     public function view(&$body);
 }
