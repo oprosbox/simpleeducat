@@ -1,18 +1,22 @@
 <?php
 
 require_once 'WAbstractSearch.php';
-require_once '/./../search.php';
+require_once 'WFactoryList.php';
 
 class WSearchBase extends WAbstractSearch implements ISearch {
 
+    private $factory_list;
+
+    public function __construct() {
+        $this->factory_list = new WFactoryList;
+    }
+
     private function channel_id($retres, WContent $content) {
-        $compositeHead = new WCompositeContent;
-        $compositeHead->type="simpledu#channel";
-        $composite = new WCompositeContent;
-        $leaf = new WLeafContent($playlist);
-        $composite->add($leaf);
-        $composite->type = 'youtube#channel';
+        $compositeHead = $this->factory_list->create_composit($content);
+        $compositeHead->type = "simpledu#channel";
         foreach ($retres as $value) {
+            $composite = $this->factory_list->create_composit();
+            $composite->type = 'youtube#channel';
             $composite->id = $value['snippet']['channelId'];
             $compositeHead->add($composite);
         }
@@ -21,6 +25,7 @@ class WSearchBase extends WAbstractSearch implements ISearch {
 
     protected function get_statistic_video(WContent &$content) {
         $result = $this->search_video_statistics($content->id);
+        //var_dump($result);
         $content->title = $result['snippet']['title'];
         $content->description = $result['snippet']['description'];
         $content->statistics = $result['statistics'];
@@ -39,37 +44,61 @@ class WSearchBase extends WAbstractSearch implements ISearch {
         $content->statistics = $result['statistics'];
     }
 
-    private function add_to_array_content(&$result,$type) {
-        $compositeHead = new WCompositeContent;
-        $leaf = new WLeafContent;
-        $composite = new WCompositeContent;
-        $compositeHead->type="simpledu#$type";
-        foreach ($result as $value) 
-            {
-            switch($type){
-                case "youtube#video":{$leaf->type = $value['id']['kind'];
-                $leaf->id = $value['id']['videoId'];
-                $leaf->title = $value['snippet']['title'];
-                $compositeHead->add($leaf);break;}
-                case "youtube#playlist":{$composite->id = $value['id']['playlistId'];
-                $composite->type = $value['id']['kind'];
-                $composite->title = $value['snippet']['title'];
-                $compositeHead->add($composite);break;}
-                case "youtube#channel":{$composite->id = $value['id']['channelId'];
-                $composite->type = $value['id']['kind'];
-                $composite->title = $value['snippet']['title'];
-                $compositeHead->add($composite);;}
+    private function add_to_array_content(&$result, $type) {
+        $compositeHead = $this->factory_list->create_composit();
+        $arr_type = explode("#", $type);
+        $compositeHead->type = "simpledu#" . $arr_type[1];
+        foreach ($result as $key => $value) {
+            switch ($type) {
+                case "youtube#video": {
+                        $leaf = $this->factory_list->create_leaf();
+                        $leaf->type = $value['id']['kind'];
+                        $leaf->id = $value['id']['videoId'];
+                        $leaf->title = $value['snippet']['title'];
+                        $compositeHead->add($leaf);
+                        break;
+                    }
+                case "youtube#playlist": {
+                        $composite = $this->factory_list->create_composit();
+                        $composite->id = $value['id']['playlistId'];
+                        $composite->type = $value['id']['kind'];
+                        $composite->title = $value['snippet']['title'];
+                        $compositeHead->add($composite);
+                        break;
+                    }
+                case "youtube#channel": {
+                        if ($key > 0) {
+                            return $compositeHead;
+                        }
+                        $composite = $this->factory_list->create_composit();
+                        $composite->id = $value['id']['channelId'];
+                        $composite->type = $value['id']['kind'];
+                        $composite->title = $value['snippet']['title'];
+                        $compositeHead->add($composite);
+                    }
             }
         }
-        return $result_list;
+        return $compositeHead;
+    }
+
+    public function set_factory_list(IFactoryList $factory) {
+        if (empty($factory)) {
+            return null;
+        }
+        $this->factory_list = $factory;
+        return true;
     }
 
     public function search_by_idchannel_playlists(WContent $channel) {
-        $compositeHead = new WCompositeContent($channel);
-        $composite = new WCompositeContent;
-        $composite->type = 'youtube#playlist';
-        $retres = $this->search_lists_by_idChanel($channel->id);
+        $compositeHead = $this->factory_list->create_composit($channel);
+
+        $retres = $this->search_lists_by_idChannel($channel->id);
+        if ($retres === null) {
+            return null;
+        }
         foreach ($retres as $value) {
+            $composite = $this->factory_list->create_composit();
+            $composite->type = 'youtube#playlist';
             $composite->description = $value['snippet']['description'];
             $composite->title = $value['snippet']['title'];
             $composite->id = $value['id'];
@@ -79,11 +108,14 @@ class WSearchBase extends WAbstractSearch implements ISearch {
     }
 
     public function search_by_idplaylist_videos(WContent $playlist) {
-        $compositeHead = new WCompositeContent($playlist);
-        $leaf = new WLeafContent();
-        $leaf->type = 'youtube#video';
+        $compositeHead = $this->factory_list->create_composit($playlist);
         $retres = $this->search_video_by_idPlayList($playlist->id);
+        if ($retres === null) {
+            return null;
+        }
         foreach ($retres as $value) {
+            $leaf = $this->factory_list->create_leaf();
+            $leaf->type = 'youtube#video';
             $leaf->title = $value['snippet']['title'];
             $leaf->id = $value['contentDetails']['videoId'];
             $compositeHead->add($leaf);
@@ -102,14 +134,12 @@ class WSearchBase extends WAbstractSearch implements ISearch {
     }
 
     public function search_by_idvideo_playlist(WContent $video) {
-        $compositeHead = new WCompositeContent;
+        $compositeHead = $this->factory_list->create_composit();
         $compositeHead->type = "simpledu#playlist";
-        $composite = new WCompositeContent;
-        $leaf = new WLeafContent($video);
-        $composite->add($leaf);
-        $composite->type = 'youtube#playlist';
         $retres = $this->search_playList_by_idVideo($video->id);
         foreach ($retres as $value) {
+            $composite = $this->factory_list->create_composit();
+            $composite->type = 'youtube#playlist';
             $composite->id = $value['playlistId'];
             $compositeHead->add($composite);
         }
@@ -119,13 +149,13 @@ class WSearchBase extends WAbstractSearch implements ISearch {
     public function get_statistics(WContent &$content) {
         switch ($content->type) {
             case "youtube#video": {
-                    return get_statistic_video($content);
+                    return $this->get_statistic_video($content);
                 }
             case "youtube#playlist": {
-                    return get_statistic_videolist($content);
+                    return $this->get_statistic_videolist($content);
                 }
             case "youtube#channel": {
-                    return get_statistic_channel($content);
+                    return $this->get_statistic_channel($content);
                 }
         }
     }
@@ -146,56 +176,7 @@ class WSearchBase extends WAbstractSearch implements ISearch {
                     break;
                 }
         }
-        return $this->add_to_array_content($result);
+        return $this->add_to_array_content($result, $type_content);
     }
 
-}
-
-class WCompositeRequest extends WCompositeContent implements IRequest {
-
-    public function update_statistics(ISearch &$search_obj) {
-        $search_obj->get_statistics($this);
-        foreach ($this->content as $key => $value) {
-            $value->update_statistics($search_obj);
-        }
-    }
-
-    public function build_tree(ISearch &$search_obj) {
-        $search_obj->get_statistics($this);
-        foreach ($this->content as $key => $value) {
-            switch ($value->type) {
-                case 'youtube#channel': {
-                        $tree_youtube = $search_obj->search_by_idchannel_playlists($value);
-                        break;
-                    }
-                case 'youtube#playlist': {
-                        $tree_youtube = $search_obj->search_by_idplaylist_videos($value);
-                    }
-            }
-            $this->content[$key] = $tree_youtube;
-            $this->content[$key]->build_tree($search_obj);
-        }
-    }
-    
-    public function test_view(){
-        
-        foreach ($this->content as $key => $value) {
-          $value->test_view();  
-        }
-    }
-}
-
-class WLeafRequest extends WLeafContent implements IRequest {
-
-    public function update_statistics(ISearch &$search_obj) {
-        $search_obj->update_statistics($this);
-    }
-
-    public function build_tree(ISearch &$search_obj) {
-        $search_obj->update_statistics($this);
-    }
-
-    public function test_view(){
-        
-    }
 }
