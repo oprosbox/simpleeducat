@@ -1,6 +1,6 @@
 <?php
 
-require_once 'interfaces.php';
+require_once '/./../interfaces.php';
 
 class WTableInsert implements ITableInsert{
     

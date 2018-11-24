@@ -1,5 +1,7 @@
 <?php
 
+require_once '/./../data_search/index.php';
+
 interface ITableCreate {
     /*
      * @function tables();
@@ -149,89 +151,37 @@ interface IYoutubeDataGetUser {
 }
 
 interface IYoutubeDataGetAdmin extends IYoutubeDataGetUser {
-    /*
-     * @function menu_item(array $id_item);
-     * функция возвращает список item menu
-     * @param $id_item - массив id_item меню
-     */
+       
+    public function lists_of_content($id_item);
 
-    public function menu_item(array $id_item);
+    public function youtube_chanels($id_list);
 
-    /*
-     * @function data_lists_of_content(array $id_item);
-     * функция возвращает список контента по id item menu
-     * @param $id_item - массив id_item меню 
-     */
+    public function youtube_playlists($id_chanel);
 
-    public function data_lists_of_content(array $id_item);
-
-    /*
-     * @function lists_of_content(array $id_list);
-     * функция возвращает список контента по его id
-     * @param $id_list - массив id контента
-     */
-
-    public function lists_of_content(array $id_list);
-
-    /*
-     * @function questions(array $id_question);
-     * функция возвращает запросы к сайту из таблиц БД
-     */
-
-    public function questions(array $id_question);
-
-    /*
-     * @function youtube_play_list(array $id_play_lists);
-     * функция возвращает из таблицы список плейлистов youtube
-     */
-
-    public function youtube_play_list(array $id_play_lists);
-
-    /*
-     * @function youtube_video(array $id_video);
-     * функция возвращает из таблицы список видео youtube
-     */
-
-    public function youtube_video(array $id_video);
-
-    /*
-     * @function youtube_chanel(array $id_chanels);
-     * функция возвращает из таблицы список каналов youtube
-     */
-
-    public function youtube_chanel(array $id_chanels);
+    public function youtube_videos($id_playlist);
 }
 
 interface IYoutubeDataSet {
-    /*
-     * @function get_questions();
-     * функция извлекает запросы из таблицы
-     */
 
-    public function get_questions();
+    public function save_content();
 
-    /*
-     * @function get_info_from_youtube(array $questions);
-     * обращается к сайту youtube, получает с сайта информацию о каналах, роликах и листах
-     * @param $questions - массив запросов на youtube
-     */
+    public function set_strat_search(IStratSearch $strat);
 
-    public function get_info_from_youtube(array $questions);
+    public function set_strat_save(IStrategySave $strat);
 
-    /*
-     * @function add_info_to_table(array $info);
-     * пакует информацию в базу данных
-     * @param $info - массив информации о каналах, плейлистах и видео youtube
-     */
+    public function set_strat_questions(IQuestions $strat);
 
-    public function add_info_to_table(array $info);
+    public function get_list_from_youtube(array $questions, $count);
 
-    /*
-     * @release_questions()
-     * функция извлекает запросы из таблицы,
-     * обращается к сайту youtube, получает с сайта информацию о каналах, роликах и листах 
-     * пакует информацию в базу данных
-     */
+    public function view_current_list();
 
-    public function release_questions();
+    public function get_and_save_content($questions, $count);
+
+    public function release_questions($param);
+}
+
+interface IQuestions{
+  
+    public function questions();
+    
 }

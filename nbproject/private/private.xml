@@ -3,20 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/simpleeducat/model/index.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/youtube/WSearchByVideoChannel.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/youtube/WRequest.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/youtube/WSearchByChannel.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/strat_questions.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_update_content.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/set_content.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/interfaces.php</file>
             <file>file:/C:/simpleeducat/model/data_search/search_interfaces.php</file>
+            <file>file:/C:/simpleeducat/model/data_search/youtube/WListContent.php</file>
             <file>file:/C:/simpleeducat/model/data_search/list_interfaces.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_create_content.php</file>
+            <file>file:/C:/simpleeducat/model/data_search/youtube/WViewStrat.php</file>
             <file>file:/C:/simpleeducat/model/data_search/youtube/WAbstractSearch.php</file>
-            <file>file:/C:/simpleeducat/index.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_insert_content.php</file>
             <file>file:/C:/simpleeducat/model/data_search/index.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/youtube/WSearchByVideoGroup.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/css/style.css</file>
+            <file>file:/C:/simpleeducat/model/data_search/youtube/WSearchBase.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/strat_save.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_delete_content.php</file>
             <file>file:/C:/simpleeducat/model/data_search/youtube/WFactoryList.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/youtube/WSearchByVideolist.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/youtube/WSearch_base.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/get_content.php</file>
+            <file>file:/C:/simpleeducat/model/data_search/youtube/WListRequest.php</file>
         </group>
     </open-files>
 </project-private>

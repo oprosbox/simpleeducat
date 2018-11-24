@@ -1,9 +1,10 @@
 <?php
 
 
-require_once 'interfaces.php';
+require_once '/./../interfaces.php';
 
 class WTableDelete implements ITableDelete{
+    
     public function data_list_content(array $id_page_info) {
         
     }

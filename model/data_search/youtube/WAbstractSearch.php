@@ -72,7 +72,7 @@ class WAbstractSearch extends YoutubeObject {
         }
     }
 
-    protected function search_chanel($question, $maxResults = 0) {
+    protected function search_channel($question, $maxResults = 0) {
         if (!empty($this->youtube)) {
             $param = array("q" => $question,
                 "type" => "channel");

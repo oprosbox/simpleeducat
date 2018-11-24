@@ -1,14 +1,25 @@
 <?php
 
+require_once '/./search_interfaces.php';
+
 class WContent {
 
+    public $id_parent;
     public $type;
     public $id;
     public $title;
     public $description;
     public $statistics;
-    
-    
+
+    public function get_id_parent() {
+        return $this->id_parent;
+    }
+
+    public function set_id_parent($id_parent) {
+        $this->id_parent = $id_parent;
+        return $this;
+    }
+
     public function get_type() {
         return $this->type;
     }
@@ -54,27 +65,42 @@ class WContent {
         return $this;
     }
 
+}
 
+interface IStrategySave {
+
+    public function save(WContent $content);
+}
+
+interface IStrategyView {
+
+    public function leaf_view(&$body, $content);
+
+    public function composite_view(&$body, $content);
 }
 
 interface ITreeContent {
+
+    public function set_strat_view(IStrategyView $view_strat);
+
+    public function set_strat_save(IStrategySave $save_strat);
 
     public function add($param);
 
     public function remove($id);
 
     public function get_content($id);
+
+    public function view(&$body);
+
+    public function save();
 }
 
 interface IRequest extends ITreeContent {
 
-    public function update_statistics(&$search_obj);
+    public function set_strat_search(ISearch $search_strat);
 
-    public function build_tree(&$search_obj);
-    
-    public function find_parent(&$search_obj);
-    
-    public function find_granny(&$search_obj);
+    public function update_statistics();
 
-    public function view(&$body);
+    public function build_tree();
 }

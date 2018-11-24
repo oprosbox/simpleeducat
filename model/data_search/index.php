@@ -1,6 +1,5 @@
 <?php
 
-require_once 'youtube/WSearchByChannel.php';
-require_once 'youtube/WSearchByVideolist.php';
-require_once 'youtube/WSearchByVideoChannel.php';
-require_once 'youtube/WSearchByVideoGroup.php';
+require_once '/./youtube/WSearchBase.php';
+require_once '/./youtube/WListRequest.php';
+require_once '/./youtube/WViewStrat.php';

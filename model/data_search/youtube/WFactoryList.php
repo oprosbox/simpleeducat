@@ -1,6 +1,6 @@
 <?php
 
-require_once 'WRequest.php';
+require_once 'WListRequest.php';
 
 class WFactoryList implements IFactoryList{
     public function create_composit($content = null) {
