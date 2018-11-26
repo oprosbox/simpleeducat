@@ -165,13 +165,13 @@ interface IYoutubeDataSet {
 
     public function save_content();
 
-    public function set_strat_search(IStratSearch $strat);
+    public function set_strat_search(ISearch $strat);
 
     public function set_strat_save(IStrategySave $strat);
 
     public function set_strat_questions(IQuestions $strat);
 
-    public function get_list_from_youtube(array $questions, $count);
+    public function get_list_from_youtube($questions, $count);
 
     public function view_current_list();
 

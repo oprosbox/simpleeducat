@@ -16,7 +16,8 @@ class WContent {
     }
 
     public function set_id_parent($id_parent) {
-        $this->id_parent = $id_parent;
+        if(!empty($id_parent)){
+        $this->id_parent = $id_parent;}
         return $this;
     }
 
@@ -41,27 +42,32 @@ class WContent {
     }
 
     public function set_type($type) {
-        $this->type = $type;
+        if(!empty($type)){
+        $this->type = $type;}
         return $this;
     }
 
     public function set_id($id) {
-        $this->id = $id;
+        if(!empty($id)){
+        $this->id = $id;}
         return $this;
     }
 
     public function set_title($title) {
-        $this->title = $title;
+        if(!empty($title)){
+        $this->title = $title;}
         return $this;
     }
 
     public function set_description($description) {
-        $this->description = $description;
+        if(!empty($description)){
+        $this->description = $description;}
         return $this;
     }
 
     public function set_statistics($statistics) {
-        $this->statistics = $statistics;
+        if(!empty($statistics)){
+        $this->statistics = $statistics;}
         return $this;
     }
 
@@ -74,16 +80,18 @@ interface IStrategySave {
 
 interface IStrategyView {
 
-    public function leaf_view(&$body, $content);
+    public function leaf_view(&$body,WContent $content);
 
-    public function composite_view(&$body, $content);
+    public function composite_view_begin(&$body, $content);
+
+    public function composite_view_end(&$body, $content);
 }
 
 interface ITreeContent {
 
-    public function set_strat_view(IStrategyView $view_strat);
+    static public function set_strat_view(IStrategyView $view_strat);
 
-    public function set_strat_save(IStrategySave $save_strat);
+    static public function set_strat_save(IStrategySave $save_strat);
 
     public function add($param);
 
@@ -98,7 +106,7 @@ interface ITreeContent {
 
 interface IRequest extends ITreeContent {
 
-    public function set_strat_search(ISearch $search_strat);
+    static public function set_strat_search(ISearch $search_strat);
 
     public function update_statistics();
 

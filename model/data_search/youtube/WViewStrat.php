@@ -1,15 +1,19 @@
 <?php
 
-require_once '/./list_interfaces.php';
+require_once '/./../list_interfaces.php';
 
-class WView implements IStrategyView{
+class WStratView implements IStrategyView{
     
-    public function composite_view(&$body, array $content) {
+    public function composite_view_begin(&$body, $content) {
+    var_dump($content);  
+    }
+
+    public function composite_view_end(&$body, $content) {
         
     }
 
     public function leaf_view(&$body, WContent $content) {
-        
+     //var_dump($content);     
     }
 
 }

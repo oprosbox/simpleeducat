@@ -13,9 +13,9 @@ interface ISearch {
     
     public function set_factory_list(IFactoryList $factory);
 
-    public function get_statistics(WContent &$content);
+    public function get_statistics($content);
 
-    public function search(WContent &$content);
+    public function search(WContent $content);
 }
 
 interface IStratSearch {

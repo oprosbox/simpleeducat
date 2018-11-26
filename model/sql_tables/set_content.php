@@ -35,14 +35,14 @@ class WYoutubeDataSet implements IYoutubeDataSet {
         return $this;
     }
 
-    public function get_list_from_youtube($questions, $count=2) {
+    public function get_list_from_youtube($questions, $count=1) {
         unset($this->list_search);
         foreach ($questions as $quest) {
             $list = new WCompositeRequest;
             $list->set_type('youtube#keyword#channel');
             $list->set_description($quest);
             WCompositeRequest::$search_obj->set_maxResult('youtube#keyword#channel', $count);
-            $list->build_tree($param);
+            $list->build_tree();
             $list->save();
             $this->list_search[] = $list;
         }
@@ -51,25 +51,25 @@ class WYoutubeDataSet implements IYoutubeDataSet {
     public function view_current_list() {
         $page = '';
         foreach ($this->list_search as $tree) {
-            $page .= $tree->view();
+          $tree->view($page);
         }
         return $page;
     }
 
-    public function get_and_save_content($questions, $count = 2) {
+    public function get_and_save_content($questions, $count = 1) {
         foreach ($questions as $quest) {
             $list = new WCompositeRequest;
             $list->set_type('youtube#keyword#channel');
             $list->set_description($quest);
             WCompositeRequest::$search_obj->set_maxResult('youtube#keyword#channel', $count);
-            $list->build_tree($param);
+            $list->build_tree();
             $list->save();
         }
     }
 
     public function release_questions($param) {
         $questions = $this->strat_questionsBD->questions($param);
-        $this->get_and_save($questions, 5);
+        $this->get_and_save($questions, 2);
     }
 
 }

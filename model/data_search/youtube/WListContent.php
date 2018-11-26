@@ -8,21 +8,19 @@ class WLeafContent extends WContent implements ITreeContent {
     static public $view_strat;
 
     static public function set_strat_save(IStrategySave $save_strat) {
-        $this->save_strat = $save_strat;
-        return $this;
+        self::$save_strat = $save_strat;
     }
 
     static public function set_strat_view(IStrategyView $view_strat) {
-        $this->view_strat = $view_strat;
-        return $this;
+        self::$view_strat = $view_strat;
     }
 
     public function view(&$body) {
-        $this->strategy_view->leaf_view($body, $this);
+        self::$view_strat->leaf_view($body, $this);
     }
 
     public function save() {
-        $this->strategy_save->save($this);
+        self::$save_strat->save($this);
     }
 
     public function add($param) {
@@ -53,24 +51,28 @@ class WCompositeContent extends WContent implements ITreeContent {
     static public $view_strat;
 
     static public function set_strat_save(IStrategySave $save_strat) {
-        $this->save_strat = $save_strat;
-        return $this;
+        self::$save_strat = $save_strat;
+        WLeafContent::$save_strat = $save_strat;
     }
 
     static public function set_strat_view(IStrategyView $view_strat) {
-        $this->view_strat = $view_strat;
-        return $this;
+        self::$view_strat = $view_strat;
+        WLeafContent::$view_strat = $view_strat;
     }
 
     public function save() {
-        $strategy_save->save($this);
+        self::$save_strat->save($this);
         foreach ($this->content as $value) {
-            $value->save($strategy_save, $this);
+            $value->save();
         }
     }
 
     public function view(&$body) {
-        $view->composite_view($body);
+        self::$view_strat->composite_view_begin($body, $this);
+        foreach ($this->content as $value) {
+            $value->view($body);
+        }
+        self::$view_strat->composite_view_end($body, $this);
     }
 
     public function to_begin() {
