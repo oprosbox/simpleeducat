@@ -1,6 +1,7 @@
 <?php
 
 require_once '/./../data_search/index.php';
+require_once '/./../../config.php';
 
 interface ITableCreate {
     /*
@@ -151,7 +152,7 @@ interface IYoutubeDataGetUser {
 }
 
 interface IYoutubeDataGetAdmin extends IYoutubeDataGetUser {
-       
+
     public function lists_of_content($id_item);
 
     public function youtube_chanels($id_list);
@@ -180,8 +181,7 @@ interface IYoutubeDataSet {
     public function release_questions($param);
 }
 
-interface IQuestions{
-  
+interface IQuestions {
+
     public function questions();
-    
 }
