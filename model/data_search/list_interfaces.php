@@ -75,7 +75,7 @@ class WContent {
 
 interface IStrategySave {
 
-    public function save(WContent $content);
+    public function save($content);
 }
 
 interface IStrategyView {

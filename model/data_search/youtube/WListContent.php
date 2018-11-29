@@ -20,7 +20,6 @@ class WLeafContent extends WContent implements ITreeContent {
     }
 
     public function save() {
-        self::$save_strat->save($this);
     }
 
     public function add($param) {
@@ -61,7 +60,7 @@ class WCompositeContent extends WContent implements ITreeContent {
     }
 
     public function save() {
-        self::$save_strat->save($this);
+        self::$save_strat->save($this->content);
         foreach ($this->content as $value) {
             $value->save();
         }

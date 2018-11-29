@@ -1,32 +1,19 @@
 <?php
 
 
-
+require_once '/./single_connect.php';
 require_once '/./../interfaces.php';
-require_once '/./../../library/functions.php';
+require_once '/./../../../library/functions.php';
 
-class WTableCreate implements ITableCreate {
-
-    private $link;
-
-    private function create() {
-        $this->link = mysqli_connect(HOST_MYSQL, LOGIN_MYSQL, PASSWORD_MYSQL);
-        return $this->link;
-    }
-
-    private function destroy() {
-        if (!empty($this->link))
-            mysqli_close($this->link);
-    }
+class WTableCreate extends WSingletonConnect implements ITableCreate {
 
     public function tables() {
-        if (empty($this->create())) {
-            return null;
-        }
-        $query = file_get_contents(get_home_url() . '/SQLQuestions/createTables.sql');
-        $result = mysqli_query($this->link, $query);
-        $this->destroy();
+        
+        $query = file_get_contents(get_home_url() . '/SQLQuestions/create_tables.sql');
+        $arr_q= explode(';',$query);
+        foreach ($arr_q as $quest)
+        {$result = mysqli_query(self::$link, $quest);
+        var_dump($result);}
         return $result;
     }
-
 }

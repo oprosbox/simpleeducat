@@ -37,7 +37,7 @@ class WYoutubeDataSet implements IYoutubeDataSet {
 
     public function get_list_from_youtube($questions, $count=1) {
         unset($this->list_search);
-        foreach ($questions as $quest) {
+        foreach ($questions as $key=>$quest) {
             $list = new WCompositeRequest;
             $list->set_type('youtube#keyword#channel');
             $list->set_description($quest);
@@ -49,6 +49,7 @@ class WYoutubeDataSet implements IYoutubeDataSet {
     }
 
     public function view_current_list() {
+        if(empty($this->list_search)){return '';}
         $page = '';
         foreach ($this->list_search as $tree) {
           $tree->view($page);

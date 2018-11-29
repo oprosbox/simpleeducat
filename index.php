@@ -11,10 +11,13 @@ $youtubeDataSet = new WYoutubeDataSet();
 $keyword = 'Владимир Соловьев';
 $strat_save = new WStratSaveContent;
 $strat_view = new WStratView;
+//$create=new WTableCreate;
+$strat_save->create();
+//$create->tables();
+
 $youtubeDataSet->set_strat_search($youtube_search);
 $youtubeDataSet->set_strat_save($strat_save);
 $youtubeDataSet->set_strat_view($strat_view);
-
 $youtubeDataSet->get_list_from_youtube(array($keyword));
 $htmlBody = $youtubeDataSet->view_current_list();
 ?>
