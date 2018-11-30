@@ -35,19 +35,6 @@ class WYoutubeDataSet implements IYoutubeDataSet {
         return $this;
     }
 
-    public function get_list_from_youtube($questions, $count=1) {
-        unset($this->list_search);
-        foreach ($questions as $key=>$quest) {
-            $list = new WCompositeRequest;
-            $list->set_type('youtube#keyword#channel');
-            $list->set_description($quest);
-            WCompositeRequest::$search_obj->set_maxResult('youtube#keyword#channel', $count);
-            $list->build_tree();
-            $list->save();
-            $this->list_search[] = $list;
-        }
-    }
-
     public function view_current_list() {
         if(empty($this->list_search)){return '';}
         $page = '';
@@ -58,19 +45,23 @@ class WYoutubeDataSet implements IYoutubeDataSet {
     }
 
     public function get_and_save_content($questions, $count = 1) {
-        foreach ($questions as $quest) {
+         foreach ($questions as $key=>$request) {
             $list = new WCompositeRequest;
             $list->set_type('youtube#keyword#channel');
-            $list->set_description($quest);
-            WCompositeRequest::$search_obj->set_maxResult('youtube#keyword#channel', $count);
+            $list->set_description($request['question']);
+            $list->set_id($key);
+            $list->set_id_parent(null);
+            WCompositeRequest::$save_strat->set_id_content($request['id_content']);
+            WCompositeRequest::$search_obj->set_max_result('youtube#keyword#channel', $count);
             $list->build_tree();
             $list->save();
+            unset($list);
         }
     }
 
     public function release_questions($param) {
         $questions = $this->strat_questionsBD->questions($param);
-        $this->get_and_save($questions, 2);
+        $this->get_and_save($questions, 5);
     }
 
 }

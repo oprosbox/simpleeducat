@@ -12,8 +12,7 @@ class WStratView implements IStrategyView{
         
     }
 
-    public function leaf_view(&$body, WContent $content) {
-     //var_dump($content);     
+    public function leaf_view(&$body, WContent $content) {   
     }
 
 }

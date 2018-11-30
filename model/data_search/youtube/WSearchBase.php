@@ -65,8 +65,8 @@ class WSearchBase extends WAbstractSearch implements ISearch {
             return false;
     }
 
-    public function set_maxResult($type,$maxResult){
-     $this->array_search[$type]['maxResult']=$maxResult;
+    public function set_max_result($type,$max_result){
+     $this->array_search[$type]['maxResult']=$max_result;
      return $this;
     } 
             

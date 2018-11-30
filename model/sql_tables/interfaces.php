@@ -125,18 +125,16 @@ interface IYoutubeDataGetUser {
      * функция возвращает массив данных по id item menu
      */
 
-    public function data_list_content($id_item);
+    public function data_list_content($id_item,$num, $limit,$type);
 }
 
 interface IYoutubeDataGetAdmin extends IYoutubeDataGetUser {
 
     public function lists_of_content($id_item);
 
-    public function youtube_chanels($id_list);
-
-    public function youtube_playlists($id_chanel);
-
-    public function youtube_videos($id_playlist);
+    public function data_content_sources($id_content,$num, $limit, $type); 
+    
+    public function data_sources($id_sources,$num, $limit); 
 }
 
 interface IYoutubeDataSet {

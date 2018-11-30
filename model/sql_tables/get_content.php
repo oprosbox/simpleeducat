@@ -1,35 +1,109 @@
 <?php
 
-require_once 'interfaces.php';
+require_once '/./interfaces.php';
+require_once '/./mysqlbase/single_connect.php';
 
-class WYoutubeDataGetUser implements IYoutubeDataGetUser{
-    
-    public function data_list_content($id_item) {
-        
+class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUser {
+
+    private function convert_to_array_menu($result_query) {
+        $menu = [];
+        while ($row = $result_query->fetch_row()) {
+            $menu[$row['id_item']] = array('id_parent' => $row['id_parent'],
+                'title' => $row['title'],
+                'description' => $row['description']);
+        }
+        $result_query->close();
+        return $menu;
+    }
+
+    private function convert_to_array_sources($result_query) {
+        $sources = [];
+        while ($row = $result_query->fetch_row()) {
+            $sources[$row['id']] = array('id_parent' => $row['id_parent'],
+                'title' => $row['title'],
+                'description' => $row['description'],
+                'type_source' => $row['type_source'],
+                'statistics' => json_decode($row['statistics']));
+        }
+        $result_query->close();
+        return $sources;
+    }
+
+    private function convert_to_array_content($result_query) {
+        $content = [];
+        while ($row = $result_query->fetch_row()) {
+            $content[$row['id_content']] = array('id_item' => $row['id_item'],
+                'title' => $row['title'],
+                'description' => $row['description']);
+        }
+        $result_query->close();
+        return $content;
+    }
+
+    public function list_content($id_item) {
+        $query = "SELECT * FROM content WHERE id_item=$id_item";
+        $result = mysqli_query(self::$link, $query);
+        return $this->convert_to_array_content($result);
+    }
+
+    public function data_list_content($id_item, $num = 0, $limit = null, $type = null) {
+        $limit_str = "";
+        $type_str = "";
+        if ($limit != null) {
+            $pos = $num * $limit;
+            $limit_str = "LIMIT $pos,$limit";
+        }
+        if ($type != null) {
+            $type_str = "AND (type_source=$type)";
+        }
+        $query = "SELECT * FROM sources WHERE (id_content IN(SELECT * FROM content WHERE id_item=$id_item) $type_str) $limit_str";
+        $result = mysqli_query(self::$link, $query);
+        return $this->convert_to_array_sources($result);
     }
 
     public function menu() {
-        
+        $query = "SELECT * FROM menu";
+        $result = mysqli_query(self::$link, $query);
+        return $this->convert_to_array_menu($result);
     }
 
 }
 
-class WYoutubeDataGetAdmin extends WYoutubeDataGetUser implements IYoutubeDataGetAdmin{
-    
+class WYoutubeDataGetAdmin extends WYoutubeDataGetUser implements IYoutubeDataGetAdmin {
+
     public function lists_of_content($id_item) {
-        
+        $list = implode(',', $id_item);
+        $query = "SELECT * FROM content WHERE id_item IN ($list)";
+        $result = mysqli_query(self::$link, $query);
+        return $this->convert_to_array_content($result);
     }
 
-    public function youtube_chanels($id_list) {
-    
+    public function data_content_sources($id_content, $num = 0, $limit = null, $type = null) {
+        $list = implode(',', $id_content);
+        $limit_str = "";
+        $type_str = "";
+        if ($limit != null) {
+            $pos = $num * $limit;
+            $limit_str = "LIMIT $pos,$limit";
+        }
+        if ($type != null) {
+            $type_str = "AND (type_source=$type)";
+        }
+        $query = "SELECT * FROM sources WHERE ((id_content IN($list) $type_str) $limit_str";
+        $result = mysqli_query(self::$link, $query);
+        return $this->convert_to_array_sources($result);
     }
 
-    public function youtube_playlists($id_chanel) {
-        
-    }
-
-    public function youtube_videos($id_playlist) {
-        
+    public function data_sources($id_sources, $num = 0, $limit = null) {
+        $list = implode(',', $id_sources);
+        $limit_str = "";
+        if ($limit != null) {
+            $pos = $num * $limit;
+            $limit_str = "LIMIT $pos,$limit";
+        }
+        $query = "SELECT * FROM sources WHERE (id IN($list)) $limit_str";
+        $result = mysqli_query(self::$link, $query);
+        return $this->convert_to_array_sources($result);
     }
 
 }

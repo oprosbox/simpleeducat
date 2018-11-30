@@ -4,44 +4,57 @@ require_once '/./single_connect.php';
 require_once '/./../interfaces.php';
 
 function data_to_string($result, $item) {
-    $res = '(\''. $item->id. '\',';
-    if($item->id_parent!=''){$res .= '\''.$item->id_parent. '\',';}else{$res .= 'NULL,';}
-    $res .= 'NULL,';
-    $res .= '\''.WSingletonConnect::$link->escape_string($item->type) . '\',';
-    $res .= '\''.WSingletonConnect::$link->escape_string(htmlspecialchars_decode($item->title)) . '\',';
-    //$res .= 'NULL,';
-    $res .= '\''.WSingletonConnect::$link->escape_string(htmlspecialchars_decode($item->description)) . '\',';
-    $res .='\''.WSingletonConnect::$link->escape_string(json_encode($item->statistics)) . '\',';
+    $res = '(\'' . $item->id . '\',';
+    if ($item->id_parent != '') {
+        $res .= '\'' . $item->id_parent . '\',';
+    } else {
+        $res .= 'NULL,';
+    }
+    $res .= ' $ ,';
+    $res .= '\'' . WSingletonConnect::$link->escape_string($item->type) . '\',';
+    $res .= '\'' . WSingletonConnect::$link->escape_string(htmlspecialchars_decode($item->title)) . '\',';
+    $res .= '\'' . WSingletonConnect::$link->escape_string(htmlspecialchars_decode($item->description)) . '\',';
+    $res .= '\'' . WSingletonConnect::$link->escape_string(json_encode($item->statistics)) . '\',';
     $res .= 'NOW()),';
-    var_dump($res);
-    $result.=$res;
+    $result .= $res;
     return $result;
 }
 
 function question_to_string($result, $item) {
-    $result .= '(' . $item['id'] . ',';
-    $result .= $item['title'] . ',';
+    $result .= '(\'' . WSingletonConnect::$link->escape_string($item['title']) . '\',';
+    $result .= '\'' . WSingletonConnect::$link->escape_string($item['question']) . '\',';
     $result .= $item['id_content'] . '),';
     return $result;
 }
 
 function menu_to_string($result, $item) {
-    $result .= '(' . $item['title'] . ',';
+    $result .= '(\'' . WSingletonConnect::$link->escape_string($item['title']) . '\',';
     $result .= $item['id_parent'] . '),';
     return $result;
 }
 
 function content_to_string($result, $item) {
-    $result .= '(' . $item['title'] . ',';
-    $result .= $item['description'] . ',';
+    $result .= '(\'' . WSingletonConnect::$link->escape_string($item['title']) . '\',';
+    $result .= '\'' . WSingletonConnect::$link->escape_string($item['description']) . '\',';
     $result .= $item['id_item'] . '),';
     return $result;
 }
 
 class WTableInsert extends WSingletonConnect implements ITableInsert {
 
+    public function get_id_content() {
+        return $this->id_content;
+    }
+
+    public function set_id_content($id_content) {
+        $this->id_content = $id_content;
+        return $this;
+    }
+
+       private $id_content='NULL';
+       
     public function data_list_content($page_info) {
-        $question = "INSERT INTO `simpleedu`.`content`(title,description,id_item) VALUES ";
+        $question = "INSERT INTO `content`(title,description,id_item) VALUES ";
         array_reduce($page_info, 'content_to_string', $question);
         $question = rtrim($question, ',');
         $result = mysqli_query(self::$link, $question);
@@ -49,7 +62,7 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
     }
 
     public function menu($themes) {
-        $question = "INSERT INTO `simpleedu`.`menu` (title,id_parent) VALUES ";
+        $question = "INSERT INTO `menu` (title,id_parent) VALUES ";
         array_reduce($themes, 'menu_to_string', $question);
         $question = rtrim($question, ',');
         $result = mysqli_query(self::$link, $question);
@@ -57,7 +70,7 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
     }
 
     public function questions($query) {
-        $question = "INSERT INTO `simpleedu`.`questions`(title,question,id_content) VALUES ";
+        $question = "INSERT INTO `questions`(title,question,id_content) VALUES ";
         array_reduce($query, 'question_to_string', $question);
         $question = rtrim($question, ',');
         $result = mysqli_query(self::$link, $question);
@@ -66,18 +79,17 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
 
     public function sources($sources) {
         $question = "INSERT INTO `sources` (id,id_parent,id_content,type_source,title,description,statistics,time_update) VALUES ";
-        // var_dump($sources);
-        $question=array_reduce($sources, 'data_to_string', $question);
-        $question = rtrim($question, ',');
+        $question = array_reduce($sources, 'data_to_string', $question);
+        $question = str_replace('$', $id_content, $question);
+        $question = $question = rtrim($question, ',');
         $question .= ' ON DUPLICATE KEY UPDATE id_parent=VALUES(id_parent),'
+                . 'id_content = VALUES(id_content),'
                 . 'type_source = VALUES(type_source),'
                 . 'title= VALUES(title),'
                 . 'description=VALUES(description), '
                 . 'statistics=VALUES(statistics), '
                 . 'time_update=NOW();';
-        var_dump($question);
         $result = mysqli_query(self::$link, $question);
-        var_dump($result);
         return $result;
     }
 

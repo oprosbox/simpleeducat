@@ -1,41 +1,76 @@
 <?php
 
 require_once '/./../interfaces.php';
-require_once '/./tables_insert_content.php';
+require_once '/./single_connect.php';
 
-class WTableUpdate extends WTableInsert implements ITableUpdate {
+function update_cont_id($result, $item) {
+    $title = $item['title'];
+    $description = $item['description'];
+    $id_content = $item['id_content'];
+    $id = $item['id'];
+    $result .= " WHEN $id THEN '$title', '$description', $id_content, NOW() \n";
+    return $result;
+}
+
+function update_list_content($result, $item) {
+    $title = $item['title'];
+    $description = $item['description'];
+    $id_item = $item['id_item'];
+    $id = $item['id'];
+    $result .= " WHEN $id THEN '$title', '$description', $id_item, NOW() \n";
+    return $result;
+}
+
+function update_menu($result, $item) {
+    $title = $item['title'];
+    $description = $item['description'];
+    $id_parent = $item['id_parent'];
+    $id = $item['id'];
+    $result .= " WHEN $id THEN '$title', '$description', $id_parent, NOW() \n";
+    return $result;
+}
+
+function update_question($result, $item) {
+    $title = $item['title'];
+    $description = $item['description'];
+    $question = $item['question'];
+    $id_content = $item['id_content'];
+    $id = $item['id_question'];
+    $result .= " WHEN $id THEN '$title','$description', '$question',$id_content, NOW() \n";
+    return $result;
+}
+
+class WTableUpdate extends WSingletonConnect implements ITableUpdate {
 
     public function data_list_content($page_info) {
-        $title = $page_info['title'];
-        $description = $page_info['description'];
-        $id_item = $page_info['id_item'];
-        $id = $page_info['id'];
-        $question = "UPDATE 'content' SET (title,description,id_item)="
-                . "($title,$description,$id_item) WHERE 'content'.'id_content'=$id ";
+        $question = 'UPDATE `content` SET title,description,id_item,time_update = CASE `id_content` \n';
+        array_reduce($query, 'update_list_content', $question);
+        $question .= ' ELSE title,description,id_item,time_update END;';
         $result = mysqli_query(self::$link, $question);
         return $result;
     }
 
     public function menu($themes) {
-        $title = $themes['title'];
-        $id_parent = $themes['id_parent'];
-        $description = $themes['description'];
-        $id = $themes['id'];
-        $question = "UPDATE 'menu' SET (title,description,id_parent)="
-                . "($title,$description,$id_parent) WHERE 'menu'.'id_item'=$id ";
+        $question = 'UPDATE `menu` SET title,description,id_parent,time_update = CASE `id_item` \n';
+        array_reduce($query, 'update_menu', $question);
+        $question .= 'ELSE title,description,id_parent,time_update END;';
         $result = mysqli_query(self::$link, $question);
         return $result;
     }
 
     public function questions($query) {
-        $title = $query['title'];
-        $id_content = $query['id_content'];
-        $question = $query['question'];
-        $id = $query['id_question'];
-        $question_sql = "UPDATE 'menu' SET (title,question,id_content)="
-                . "($title,$question,$id_content) WHERE 'questions'.'id_question'=$id ";
-        $result = mysqli_query(self::$link, $question_sql);
+        $question = 'UPDATE `questions` SET title,description,question,id_content,time_update = CASE `id_question` \n';
+        array_reduce($query, 'update_question', $question);
+        $question .= 'ELSE title,description,question,id_content,time_update END;';
+        $result = mysqli_query(self::$link, $question);
         return $result;
     }
 
+    public function sources($keys) {
+        $question = 'UPDATE `sources` SET title,description,id_content,time_update = CASE `id` \n';
+        array_reduce($query, 'update_cont_id', $question);
+        $question .= 'ELSE title,description,id_content,time_update END;';
+        $result = mysqli_query(self::$link, $question);
+        return $result;
+    }
 }
