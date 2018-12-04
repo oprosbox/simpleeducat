@@ -3,25 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/simpleeducat/model/sql_tables/strat_questions.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/index.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_update_content.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/set_content.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/interfaces.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/search_interfaces.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/youtube/WListContent.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/list_interfaces.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_create_content.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/youtube/WViewStrat.php</file>
-            <file>file:/C:/simpleeducat/index.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_insert_content.php</file>
-            <file>file:/C:/simpleeducat/config.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/youtube/WSearchBase.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/strat_save.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_delete_content.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/get_content.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/youtube/WListRequest.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/single_connect.php</file>
+            <file>file:/C:/simpleeducat/components/WNavContent.php</file>
+            <file>file:/C:/simpleeducat/components/bodyListChannels.php</file>
+            <file>file:/C:/simpleeducat/components/bodyPlaylist.php</file>
+            <file>file:/C:/simpleeducat/components/interfaces.php</file>
+            <file>file:/C:/simpleeducat/components/bodyVideo.php</file>
+            <file>file:/C:/simpleeducat/components/WBodyList.php</file>
+            <file>file:/C:/simpleeducat/components/bodyChannel.php</file>
+            <file>file:/C:/simpleeducat/test_menu.html</file>
+            <file>file:/C:/simpleeducat/components/navigation.php</file>
+            <file>file:/C:/simpleeducat/components/index.php</file>
+            <file>file:/C:/simpleeducat/components/WControlContent.php</file>
+            <file>file:/C:/simpleeducat/components/menu.php</file>
+            <file>file:/C:/simpleeducat/components/WStratMenu.php</file>
+            <file>file:/C:/simpleeducat/components/WBaseComponent.php</file>
         </group>
     </open-files>
 </project-private>

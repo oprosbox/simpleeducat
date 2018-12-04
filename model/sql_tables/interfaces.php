@@ -126,6 +126,7 @@ interface IYoutubeDataGetUser {
      */
 
     public function data_list_content($id_item,$num, $limit,$type);
+    public function sources_by_parent($id_parent,$num, $limit, $type); 
 }
 
 interface IYoutubeDataGetAdmin extends IYoutubeDataGetUser {
@@ -146,8 +147,6 @@ interface IYoutubeDataSet {
     public function set_strat_save(IStrategySave $strat);
 
     public function set_strat_questions(IQuestions $strat);
-
-    public function get_list_from_youtube($questions, $count);
 
     public function view_current_list();
 

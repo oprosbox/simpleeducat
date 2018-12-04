@@ -9,15 +9,15 @@ class WQuestionBD extends WSingletonConnect implements IQuestions{
         $query = "SELECT * FROM questions";
         $result_query = mysqli_query(self::$link, $query);
         $questions = [];
-        while ($row = $result_query->fetch_row()) {
-            $questions[$row['id_question']] = array('id_content' => $row['id_content'],
+        while ($row = $result_query->fetch_array()) {
+            $questions[$row['id_question']] = array(
+                'id_content' => $row['id_content'],
                 'title' => $row['title'],
                 'description' => $row['description'],
                 'question' => $row['question']);
         }
-        $questions->close();
+        $result_query->close();
         return $questions;
     }
-
 }
 

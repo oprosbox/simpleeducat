@@ -1,6 +1,5 @@
 <?php
 
-
 require_once '/./single_connect.php';
 require_once '/./../interfaces.php';
 require_once '/./../../../library/functions.php';

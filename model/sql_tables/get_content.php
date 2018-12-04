@@ -7,7 +7,7 @@ class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUs
 
     private function convert_to_array_menu($result_query) {
         $menu = [];
-        while ($row = $result_query->fetch_row()) {
+        while ($row = $result_query->fetch_array()) {
             $menu[$row['id_item']] = array('id_parent' => $row['id_parent'],
                 'title' => $row['title'],
                 'description' => $row['description']);
@@ -18,7 +18,7 @@ class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUs
 
     private function convert_to_array_sources($result_query) {
         $sources = [];
-        while ($row = $result_query->fetch_row()) {
+        while ($row = $result_query->fetch_array()) {
             $sources[$row['id']] = array('id_parent' => $row['id_parent'],
                 'title' => $row['title'],
                 'description' => $row['description'],
@@ -31,7 +31,7 @@ class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUs
 
     private function convert_to_array_content($result_query) {
         $content = [];
-        while ($row = $result_query->fetch_row()) {
+        while ($row = $result_query->fetch_array()) {
             $content[$row['id_content']] = array('id_item' => $row['id_item'],
                 'title' => $row['title'],
                 'description' => $row['description']);
@@ -46,7 +46,7 @@ class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUs
         return $this->convert_to_array_content($result);
     }
 
-    public function data_list_content($id_item, $num = 0, $limit = null, $type = null) {
+    public function data_list_content($id_item, $type = null,$num = 0, $limit = null) {
         $limit_str = "";
         $type_str = "";
         if ($limit != null) {
@@ -65,6 +65,21 @@ class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUs
         $query = "SELECT * FROM menu";
         $result = mysqli_query(self::$link, $query);
         return $this->convert_to_array_menu($result);
+    }
+    
+    public function sources_by_parent($id_parent, $type = null,$num = 0, $limit = null){
+        $limit_str = "";
+        $type_str = "";
+        if ($limit != null) {
+            $pos = $num * $limit;
+            $limit_str = "LIMIT $pos,$limit";
+        }
+        if ($type != null) {
+            $type_str = "AND (type_source=$type)";
+        }
+       $query = "SELECT * FROM sources WHERE ((id_parent=$id_parent) $type_str) $limit_str";
+        $result = mysqli_query(self::$link, $query);
+        return $this->convert_to_array_sources($result); 
     }
 
 }
