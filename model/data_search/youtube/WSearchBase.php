@@ -120,7 +120,7 @@ class WSearchBase extends WAbstractSearch implements ISearch {
             switch ($content->type) {
                 case "youtube#keyword#video": {
                         $leaf = $this->factory_list->create_leaf();
-                        $leaf->set_id_parent($content->id);
+                        $leaf->set_id_parent(NULL);
                         $leaf->type = $value['id']['kind'];
                         $leaf->id = $value['id']['videoId'];
                         $leaf->title = $value['snippet']['title'];
@@ -129,7 +129,7 @@ class WSearchBase extends WAbstractSearch implements ISearch {
                     }
                 case "youtube#keyword#playlist": {
                         $composite = $this->factory_list->create_composit();
-                        $composite->set_id_parent($content->id);
+                        $composite->set_id_parent(NULL);
                         $composite->id = $value['id']['playlistId'];
                         $composite->type = $value['id']['kind'];
                         $composite->title = $value['snippet']['title'];
@@ -138,7 +138,7 @@ class WSearchBase extends WAbstractSearch implements ISearch {
                     }
                 case "youtube#keyword#channel": {
                         $composite = $this->factory_list->create_composit();
-                        $composite->set_id_parent($content->id);
+                        $composite->set_id_parent(NULL);
                         $composite->id = $value['id']['channelId'];
                         $composite->type = $value['id']['kind'];
                         $composite->title = $value['snippet']['title'];

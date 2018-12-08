@@ -6,8 +6,8 @@
  * and open the template in the editor.
  */
 
-require_once './WBaseComponent.php';
-require_once './WBodyList.php';
+require_once '/./WBaseComponent.php';
+require_once '/./WBodyList.php';
 
 class CBodyChannel extends WBaseComponent{
 

@@ -5,8 +5,8 @@
  * and open the template in the editor.
  */
 
-require_once './interfaces.php';
-require_once './../model/index.php';
+require_once '/./interfaces.php';
+require_once '/./../model/index.php';
 
 class WMenuCreate implements IStratCompCreate {
 

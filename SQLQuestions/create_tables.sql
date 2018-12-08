@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `menu` (
-  `id_item` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_item` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(1000) NULL,
   `description` VARCHAR(10000) NULL,
   `id_parent` INT UNSIGNED NULL,
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
     FOREIGN KEY (`id_parent`)
     REFERENCES `menu` (`id_item`)
     ON DELETE SET NULL)
-ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ENGINE = InnoDB CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS `content` (
   `id_content` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `content` (
     FOREIGN KEY (`id_item`)
     REFERENCES `menu` (`id_item`)
     ON DELETE SET NULL)
-ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ENGINE = InnoDB CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS `questions` (
   `id_question` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `questions` (
     FOREIGN KEY (`id_content`)
     REFERENCES `content` (`id_content`)
     ON DELETE SET NULL)
-ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ENGINE = InnoDB CHARACTER SET utf8;
 
 CREATE TABLE IF NOT EXISTS `sources` (
   `id` VARCHAR(100) NOT NULL,
@@ -55,4 +55,4 @@ CREATE TABLE IF NOT EXISTS `sources` (
     FOREIGN KEY (`id_content`)
     REFERENCES `content` (`id_content`)
     ON DELETE SET NULL)
-ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ENGINE = InnoDB CHARACTER SET utf8;

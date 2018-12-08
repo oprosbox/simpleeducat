@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-require_once './WControlContent.php';
+require_once '/./WControlContent.php';
 
 class WBodyListChannel extends WControlContent implements IStratCompCreate {
 

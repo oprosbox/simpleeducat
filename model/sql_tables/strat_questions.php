@@ -11,6 +11,7 @@ class WQuestionBD extends WSingletonConnect implements IQuestions{
         $questions = [];
         while ($row = $result_query->fetch_array()) {
             $questions[$row['id_question']] = array(
+                'type_quest' => $row['type_quest'],
                 'id_content' => $row['id_content'],
                 'title' => $row['title'],
                 'description' => $row['description'],

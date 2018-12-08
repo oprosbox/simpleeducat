@@ -54,9 +54,9 @@ class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUs
             $limit_str = "LIMIT $pos,$limit";
         }
         if ($type != null) {
-            $type_str = "AND (type_source=$type)";
+            $type_str = "AND (type_source='$type')";
         }
-        $query = "SELECT * FROM sources WHERE (id_content IN(SELECT * FROM content WHERE id_item=$id_item) $type_str) $limit_str";
+        $query = "SELECT * FROM sources WHERE (id_content IN(SELECT id_content FROM content WHERE id_item=$id_item) $type_str) $limit_str";
         $result = mysqli_query(self::$link, $query);
         return $this->convert_to_array_sources($result);
     }
@@ -75,9 +75,9 @@ class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUs
             $limit_str = "LIMIT $pos,$limit";
         }
         if ($type != null) {
-            $type_str = "AND (type_source=$type)";
+            $type_str = "AND (type_source='$type')";
         }
-       $query = "SELECT * FROM sources WHERE ((id_parent=$id_parent) $type_str) $limit_str";
+       $query = "SELECT * FROM sources WHERE ((id_parent='$id_parent') $type_str) $limit_str";
         $result = mysqli_query(self::$link, $query);
         return $this->convert_to_array_sources($result); 
     }

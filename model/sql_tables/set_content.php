@@ -47,12 +47,12 @@ class WYoutubeDataSet implements IYoutubeDataSet {
     public function get_and_save_content($questions, $count = 1) {
          foreach ($questions as $key=>$request) {
             $list = new WCompositeRequest;
-            $list->set_type('youtube#keyword#channel');
+            $list->set_type($request['type_quest']);
             $list->set_description($request['question']);
             $list->set_id($key);
             $list->set_id_parent(null);
             WCompositeRequest::$save_strat->set_id_content($request['id_content']);
-            WCompositeRequest::$search_obj->set_max_result('youtube#keyword#channel', $count);
+            WCompositeRequest::$search_obj->set_max_result($request['type_quest'], $count);
             $list->build_tree();
             $list->save();
             unset($list);
@@ -60,8 +60,8 @@ class WYoutubeDataSet implements IYoutubeDataSet {
     }
 
     public function release_questions($param) {
-        $questions = $this->strat_questionsBD->questions($param);
-        $this->get_and_save($questions, 5);
+        $questions = $this->strat_questionsBD->questions();
+        $this->get_and_save_content($questions, $param['max_count']);
     }
 
 }

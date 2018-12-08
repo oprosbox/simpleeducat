@@ -6,16 +6,16 @@
  * and open the template in the editor.
  */
 
-require_once './../model/index.php';
+require_once '/./../model/index.php';
 
 class WBaseComponent {
 
-    static public function creator() {
+    static public function creator($params) {
        if(empty(self::$strat_data_get)){self::$strat_data_get = new WYoutubeDataGetUser;}   
     }
 
-    static public function create() {
-        self::creator();
+    static public function create($params) {
+        self::creator($params);
         return self::$strat_create->create();
     }
     

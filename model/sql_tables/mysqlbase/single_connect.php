@@ -13,6 +13,13 @@ class WSingletonConnect {
     static public function create() {
         if (empty(self::$link)) {
             self::$link = mysqli_connect(HOST_MYSQL, LOGIN_MYSQL, PASSWORD_MYSQL, DB_MYSQL);
+            /* Устанавливаем кодировку для корректного вывода в браузере */
+            $query = "SET NAMES 'utf8'";
+            mysqli_query(self::$link, $query);
+
+            /* Устанавливаем кодировку для корректного collation */
+            $query2 = "SET SESSION collation_connection = 'utf8_general_ci';";
+            mysqli_query(self::$link, $query2);
         }
         return self::$link;
     }

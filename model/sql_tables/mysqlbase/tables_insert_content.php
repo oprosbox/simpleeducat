@@ -3,6 +3,7 @@
 require_once '/./single_connect.php';
 require_once '/./../interfaces.php';
 
+
 function data_to_string($result, $item) {
     $res = '(\'' . $item->id . '\',';
     if ($item->id_parent != '') {
@@ -10,11 +11,23 @@ function data_to_string($result, $item) {
     } else {
         $res .= 'NULL,';
     }
-    $res .= ' $ ,';
+    $res .= ' $$ ,';
     $res .= '\'' . WSingletonConnect::$link->escape_string($item->type) . '\',';
-    $res .= '\'' . WSingletonConnect::$link->escape_string(htmlspecialchars_decode($item->title)) . '\',';
-    $res .= '\'' . WSingletonConnect::$link->escape_string(htmlspecialchars_decode($item->description)) . '\',';
-    $res .= '\'' . WSingletonConnect::$link->escape_string(json_encode($item->statistics)) . '\',';
+    if ($item->title != null) {
+        $res .= '\'' . WSingletonConnect::$link->escape_string(htmlspecialchars_decode($item->title)) . '\',';
+    } else {
+        $res .= 'NULL,';
+    }
+    if ($item->description != null) {
+        $res .= '\'' . WSingletonConnect::$link->escape_string(htmlspecialchars_decode($item->description)) . '\',';
+    } else {
+        $res .= 'NULL,';
+    }
+    if ($item->statistics != null) {
+        $res .= '\'' . WSingletonConnect::$link->escape_string(json_encode($item->statistics)) . '\',';
+    } else {
+        $res .= 'NULL,';
+    }
     $res .= 'NOW()),';
     $result .= $res;
     return $result;
@@ -51,7 +64,7 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
         return $this;
     }
 
-       private $id_content='NULL';
+       static private $id_content;
        
     public function data_list_content($page_info) {
         $question = "INSERT INTO `content`(title,description,id_item) VALUES ";
@@ -80,8 +93,8 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
     public function sources($sources) {
         $question = "INSERT INTO `sources` (id,id_parent,id_content,type_source,title,description,statistics,time_update) VALUES ";
         $question = array_reduce($sources, 'data_to_string', $question);
-        $question = str_replace('$', $id_content, $question);
-        $question = $question = rtrim($question, ',');
+        $question = str_replace('$$', $this->id_content, $question);
+        $question = rtrim($question, ',');
         $question .= ' ON DUPLICATE KEY UPDATE id_parent=VALUES(id_parent),'
                 . 'id_content = VALUES(id_content),'
                 . 'type_source = VALUES(type_source),'
