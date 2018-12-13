@@ -8,9 +8,16 @@
 require_once '/./interfaces.php';
 require_once '/./../model/index.php';
 
-class WMenuCreate implements IStratCompCreate {
-
+class WMenu implements IStratCompCreate {
+/**
+ *
+ * @var array 
+ */
     private $menu_items;
+    /**
+     *
+     * @var array содержит классы вложенных кнопок 
+     */
     private $button_classes=array('btn list-group-item list-group-item-action list-group-item-primary collapsed ',
                                   'btn list-group-item list-group-item-action list-group-item-info collapsed',
                                   'btn list-group-item list-group-item-action list-group-item-success collapsed',
@@ -49,12 +56,14 @@ class WMenuCreate implements IStratCompCreate {
         } else
             return null;
     }
-
+/**
+ * публикует меню
+ */
     public function create() {
         $this->menu_items = WBaseComponent::$strat_data_get->menu();
         ?>
         <div class="row">
-	   <div class="col-lg-3">
+	   <div class="col-lg-12">
             <?php $ind=-1;
             $ul = $this->create_list(null,$ind);
             echo $ul;

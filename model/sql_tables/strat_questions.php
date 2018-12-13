@@ -4,7 +4,10 @@ include_once 'interfaces.php';
 require_once '/./mysqlbase/single_connect.php';
 
 class WQuestionBD extends WSingletonConnect implements IQuestions{
- 
+ /**
+  * 
+  * @return string[]
+  */
     public function questions() {
         $query = "SELECT * FROM questions";
         $result_query = mysqli_query(self::$link, $query);

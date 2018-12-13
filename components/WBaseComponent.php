@@ -16,20 +16,8 @@ class WBaseComponent {
 
     static public function create($params) {
         self::creator($params);
-        return self::$strat_create->create();
     }
     
-    static public function component_from_strat() {
-        return self::$strat_create->create();
-    }
-    static public function set_strat_data(IYoutubeDataGetUser $strat_data_get) {
-        self::$strat_data_get = $strat_data_get;
-    }
-
-    static public function set_strat_view(IStratCompCreate $strat_create) {
-        self::$strat_create = $strat_create;
-    }
-
     static public $strat_data_get;
     static public $strat_create;
 }

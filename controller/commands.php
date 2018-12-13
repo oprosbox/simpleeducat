@@ -6,7 +6,7 @@ interface WFunct {//базовый интерфейс для описания ф
     public function operation($value);
 }
 
-class WFunct_list implements WFunct {//формирования списка функций для одной комманды
+class WFunctList implements WFunct {//формирования списка функций для одной комманды
 
     protected $array_funct = array();
 
@@ -23,7 +23,7 @@ class WFunct_list implements WFunct {//формирования списка ф�
 
 }
 
-abstract class WCommand_list {//формирование списка комманд,идентификация по параметру name
+abstract class WCommandList {//формирование списка комманд,идентификация по параметру name
 
     protected $array_comm = array();
 
@@ -52,20 +52,3 @@ abstract class WCommand_list {//формирование списка комма
     abstract protected function release_commands($name);
 }
 
-abstract class WCommand_Message extends WCommand_list {//список имен сообщений,идентификация по пришедшему
-
-    protected $array_mess = array();
-
-    public function add_name_mess($name) {
-        array_push($this->array_mess, $name);
-        return $this;
-    }
-
-    public function delete_name_mess($name) {
-        $key=array_keys($this->array_mess,$name);
-        unset($key);
-        $this->array_mess = array_values($this->array_mess);
-        return $this;
-    }
-
-}

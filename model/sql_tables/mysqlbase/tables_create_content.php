@@ -11,7 +11,7 @@ class WTableCreate extends WSingletonConnect implements ITableCreate {
         $query = file_get_contents(get_home_url() . '/SQLQuestions/create_tables.sql');
         $arr_q= explode(';',$query);
         foreach ($arr_q as $quest)
-        $result = mysqli_query(self::$link, $quest);
+        $result=WLog::mysql_log(self::$link, $quest); 
         return $result;
     }
 }

@@ -70,7 +70,7 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
         $question = "INSERT INTO `content`(title,description,id_item) VALUES ";
         array_reduce($page_info, 'content_to_string', $question);
         $question = rtrim($question, ',');
-        $result = mysqli_query(self::$link, $question);
+        $result=WLog::mysql_log(self::$link, $question);
         return $result;
     }
 
@@ -78,7 +78,7 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
         $question = "INSERT INTO `menu` (title,id_parent) VALUES ";
         array_reduce($themes, 'menu_to_string', $question);
         $question = rtrim($question, ',');
-        $result = mysqli_query(self::$link, $question);
+        $result=WLog::mysql_log(self::$link, $question); 
         return $result;
     }
 
@@ -86,7 +86,7 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
         $question = "INSERT INTO `questions`(title,question,id_content) VALUES ";
         array_reduce($query, 'question_to_string', $question);
         $question = rtrim($question, ',');
-        $result = mysqli_query(self::$link, $question);
+        $result=WLog::mysql_log(self::$link, $question); 
         return $result;
     }
 
@@ -102,7 +102,7 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
                 . 'description=VALUES(description), '
                 . 'statistics=VALUES(statistics), '
                 . 'time_update=NOW();';
-        $result = mysqli_query(self::$link, $question);
+        $result=WLog::mysql_log(self::$link, $question); 
         return $result;
     }
 

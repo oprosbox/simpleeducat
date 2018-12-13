@@ -8,33 +8,57 @@ class WYoutubeDataSet implements IYoutubeDataSet {
 
     protected $list_search;
     protected $strat_questionsBD;
-
+/**
+ * save_content
+ * Функция пробегает по всему дереву и через стратегию для сохранения сохраняет его содержимое
+ * @return $this
+ */
     public function save_content() {
         foreach ($this->list_search as $list)
             $list->save_content();
         return $this;
     }
-
+/**
+ * set_strat_search
+ * 
+ * @param ISearch $strat
+ * @return $this
+ */
     public function set_strat_search(ISearch $strat) {
         WCompositeRequest::set_strat_search($strat);
         return $this;
     }
-
+/**
+ * 
+ * @param IStrategySave $strat
+ * @return $this
+ */
     public function set_strat_save(IStrategySave $strat) {
         WCompositeRequest::set_strat_save($strat);
         return $this;
     }
-
+/**
+ * 
+ * @param IStrategyView $strat
+ * @return $this
+ */
     public function set_strat_view(IStrategyView $strat) {
         WCompositeRequest::set_strat_view($strat);
         return $this;
     }
-
+/**
+ * 
+ * @param IQuestions $strat
+ * @return $this
+ */
     public function set_strat_questions(IQuestions $strat) {
         $this->strat_questionsBD = $strat;
         return $this;
     }
-
+/**
+ * 
+ * @return string
+ */
     public function view_current_list() {
         if(empty($this->list_search)){return '';}
         $page = '';
@@ -43,7 +67,11 @@ class WYoutubeDataSet implements IYoutubeDataSet {
         }
         return $page;
     }
-
+/**
+ * 
+ * @param array $questions 
+ * @param int $count количество каналов относительно первого места 
+ */
     public function get_and_save_content($questions, $count = 1) {
          foreach ($questions as $key=>$request) {
             $list = new WCompositeRequest;
@@ -59,6 +87,10 @@ class WYoutubeDataSet implements IYoutubeDataSet {
         }
     }
 
+/**
+ * 
+ * @param array $param 
+ */    
     public function release_questions($param) {
         $questions = $this->strat_questionsBD->questions();
         $this->get_and_save_content($questions, $param['max_count']);

@@ -6,9 +6,4 @@
  * and open the template in the editor.
  */
 
-require_once '/./menu.php';
-require_once '/./navigation.php';
-require_once '/./bodyVideo.php';
-require_once '/./bodyPlaylist.php';
-require_once '/./bodyChannel.php';
-require_once '/./bodyListChannels.php';
+require_once '/./WBody.php';

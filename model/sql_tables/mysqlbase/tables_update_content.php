@@ -46,7 +46,7 @@ class WTableUpdate extends WSingletonConnect implements ITableUpdate {
         $question = 'UPDATE `content` SET title,description,id_item,time_update = CASE `id_content` \n';
         array_reduce($query, 'update_list_content', $question);
         $question .= ' ELSE title,description,id_item,time_update END;';
-        $result = mysqli_query(self::$link, $question);
+        $result=WLog::mysql_log(self::$link, $question); 
         return $result;
     }
 
@@ -54,7 +54,7 @@ class WTableUpdate extends WSingletonConnect implements ITableUpdate {
         $question = 'UPDATE `menu` SET title,description,id_parent,time_update = CASE `id_item` \n';
         array_reduce($query, 'update_menu', $question);
         $question .= 'ELSE title,description,id_parent,time_update END;';
-        $result = mysqli_query(self::$link, $question);
+        $result=WLog::mysql_log(self::$link, $question); 
         return $result;
     }
 
@@ -62,7 +62,7 @@ class WTableUpdate extends WSingletonConnect implements ITableUpdate {
         $question = 'UPDATE `questions` SET title,description,question,id_content,time_update = CASE `id_question` \n';
         array_reduce($query, 'update_question', $question);
         $question .= 'ELSE title,description,question,id_content,time_update END;';
-        $result = mysqli_query(self::$link, $question);
+        $result=WLog::mysql_log(self::$link, $question); 
         return $result;
     }
 
@@ -70,7 +70,7 @@ class WTableUpdate extends WSingletonConnect implements ITableUpdate {
         $question = 'UPDATE `sources` SET title,description,id_content,time_update = CASE `id` \n';
         array_reduce($query, 'update_cont_id', $question);
         $question .= 'ELSE title,description,id_content,time_update END;';
-        $result = mysqli_query(self::$link, $question);
+        $result=WLog::mysql_log(self::$link, $question); 
         return $result;
     }
 }

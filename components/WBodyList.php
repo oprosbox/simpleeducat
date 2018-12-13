@@ -16,7 +16,7 @@ class WBodyListChannel extends WControlContent implements IStratCompCreate {
     }
     
     private function create_list_channels() {
-    $result='<div class="list-group">';    
+    $result='<div class="list-group">';  
     foreach(WControlContent::$channels as $key=>$channel){
         $result.='<div class="list-group-item" id="'.$key.'">
 			<div class="media">
@@ -39,12 +39,12 @@ class WBodyListChannel extends WControlContent implements IStratCompCreate {
 class WBodyChannel extends WControlContent implements IStratCompCreate {
 
     public function create() {
-     $this->get_data_from_BD();
      echo $this->create_list_playlists();   
     }
   
     private function create_list_playlists() {
-    $result='<div class="list-group">';    
+    $result='<div class="list-group">'; 
+    
     foreach(WControlContent::$playlists as $key=>$playlist){
         $result.='<div class="list-group-item" id="'.$key.'">
 			<div class="media">
@@ -70,7 +70,6 @@ class WBodyChannel extends WControlContent implements IStratCompCreate {
 class WBodyPlaylist extends WControlContent implements IStratCompCreate {
 
     public function create() {
-      $this->get_data_from_BD();
       echo $this->create_list_video();   
     }  
     
@@ -105,12 +104,12 @@ class WBodyVideo extends WControlContent implements IStratCompCreate {
     }  
     
        private function create_video() {
-           $video=WControlContent::$videos[WControlContent::params['video']];
+           $video=parent::$videos[parent::$params['id_video']];
        ?>    
         <div class="card">
             <div class="card-img-top d-flex justify-content-center">
                 <iframe id="ytplayer" type="text/html" width="640" height="360"
-                        src="http://www.youtube.com/embed/<?php echo WControlContent::params['video'] ?>?rel=0&iv_load_policy=3&disablekb=1"
+                        src="http://www.youtube.com/embed/<?php echo parent::$params['id_video'] ?>?rel=0&iv_load_policy=3&disablekb=1"
                         frameborder="0" allowfullscreen> </iframe>
             </div>
             <div class="card-header text-center">

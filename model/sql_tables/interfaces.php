@@ -3,159 +3,251 @@
 require_once '/./../data_search/index.php';
 require_once '/./../../config.php';
 
-interface ITableCreate {
-    /*
-     * @function tables();
-     * функция создает таблицы в базе данных
-     */
 
+/**
+ * ITableCreate interface
+ */
+interface ITableCreate {
+    /**
+     * tables
+     */
     public function tables();
 }
 
+    /**
+    * ITableInsert Interface
+    */
 interface ITableInsert {
-    /*
-     * @function menu(array $themes);
-     * функция вставляет новое item menu
+
+    /**
+     * menu
      * 
+     * @param type $themes
      */
-
     public function menu($themes);
-    /*
-     * @function data_list_content(array $page_info);
-     * функция вставляет новый контент в таблицу 
-     */
 
+    /**
+     * data_list_content
+     * 
+     * @param type $page_info
+     */
     public function data_list_content($page_info);
-    /*
-     * @function questions(array $question);
-     *  функция вставляет новый запрос в таблицу
-     */
 
+    /**
+     * questions
+     * 
+     * @param type $question
+     */
     public function questions($question);
-    /*
-     * @function youtube_play_list(array $play_lists);
-     * функция вставляет новый плейлист youtube в таблицу
-     */
 
+    /**
+     * sources
+     * 
+     * @param type $items_list
+     */
     public function sources($items_list);
-    
 }
 
 interface ITableUpdate {
-    /*
-     * @function menu(array $themes);
-     * функция обновляет выбранные по id записи в таблице menu
-     */
 
+    /**
+     * menu
+     * 
+     * @param type $themes
+     */
     public function menu($themes);
-    /*
-     * @function data_list_content(array $page_info);
-     *  функция обновляет выбранные по id записи в таблице c контентом
-     */
 
+    /**
+     * data_list_content
+     * 
+     * @param type $page_info
+     */
     public function data_list_content($page_info);
-    /*
-     * @function questions(array $question);
-     *  функция обновляет выбранные по id записи в таблице c запросами
-     */
 
+    /**
+     * questions
+     * 
+     * @param type $question
+     */
     public function questions($question);
-    /*
-     * @function youtube_play_list(array $play_lists);
-     * функция обновляет выбранные по id записи в таблице c плейлистами youtube
-     */
 
-   public function sources($items_list);
+    /**
+     * sources
+     * 
+     * @param array $items_list
+     */
+    public function sources($items_list);
 }
 
 interface ITableDelete {
-    /*
-     * @function tables();
-     * удаляет таблицы из БД
+    /**
+     * tables
      */
-
     public function tables();
-    /*
-     * @function menu(array $id_themes);
-     * удаляет строку item из menu по id
-     */
 
+    /**
+     * menu
+     * 
+     * @param type $id_themes
+     */
     public function menu($id_themes);
-    /*
-     * @function data_list_content(array $id_page_info);
-     * удаляет строку c контентом по id
-     */
 
+    /**
+     * data_list_content
+     * 
+     * @param type $id_page_info
+     */
     public function data_list_content($id_page_info);
-    /*
-     * @function questions(array $id_question);
-     * удаляет строку c запросом по id
-     */
 
+    /**
+     * questions
+     * 
+     * @param type $id_question
+     */
     public function questions($id_question);
-    /*
-     * @function youtube_play_list(array $id_play_lists);
-     * удаляет строку с плайлистом youtube по id
-     */
 
+    /**
+     * youtube_play_list
+     * 
+     * @param type $id_play_lists
+     */
     public function youtube_play_list($id_play_lists);
-    /*
-     * @function youtube_video(array $id_video);
-     * удаляет строку с видео youtube по id
-     */
 
+    /**
+     * youtube_video
+     * 
+     * @param type $id_video
+     */
     public function youtube_video($id_video);
-    /*
-     * @function youtube_chanel(array $id_chanels);
-     * удаляет строку с каналом youtube по id
-     */
 
+    /**
+     * youtube_chanel
+     * 
+     * @param type $id_chanels
+     */
     public function youtube_chanel($id_chanels);
 }
 
+    /**
+     * IYoutubeDataGetUser Interface
+     */
 interface IYoutubeDataGetUser {
-    /*
-     * @function menu();
-     * функция возвращает полный список item menu
-     */
 
+    /**
+     * menu
+     */
     public function menu();
-    /*
-     * @function data_list_content($id_item)
-     * функция возвращает массив данных по id item menu
-     */
 
-    public function data_list_content($id_item,$num, $limit,$type);
-    public function sources_by_parent($id_parent,$num, $limit, $type); 
+    /**
+     * data_list_content
+     * 
+     * @param type $id_item
+     * @param int $num
+     * @param type $limit
+     * @param type $type
+     */
+    public function data_list_content($id_item, $num, $limit, $type);
+
+    /**
+     * sources_by_parent
+     * 
+     * @param type $id_parent
+     * @param type $num
+     * @param type $limit
+     * @param type $type
+     */
+    public function sources_by_parent($id_parent, $num, $limit, $type);
 }
 
 interface IYoutubeDataGetAdmin extends IYoutubeDataGetUser {
 
+    /**
+     * lists_of_content
+     * 
+     * @param type $id_item
+     */
     public function lists_of_content($id_item);
 
-    public function data_content_sources($id_content,$num, $limit, $type); 
-    
-    public function data_sources($id_sources,$num, $limit); 
+    /**
+     * data_content_sources
+     * 
+     * @param type $id_content
+     * @param type $num
+     * @param type $limit
+     * @param type $type
+     */
+    public function data_content_sources($id_content, $num, $limit, $type);
+
+    /**
+     * data_sources
+     * 
+     * @param type $id_sources
+     * @param type $num
+     * @param type $limit
+     */
+    public function data_sources($id_sources, $num, $limit);
 }
 
+/**
+ * IYoutubeDataSet Interface
+ */
 interface IYoutubeDataSet {
 
+    /**
+     * save_content
+     */
     public function save_content();
 
+    /**
+     * set_strat_search
+     * 
+     * @param ISearch $strat
+     */
     public function set_strat_search(ISearch $strat);
 
+    /**
+     * set_strat_save
+     * 
+     * @param IStrategySave $strat
+     */
     public function set_strat_save(IStrategySave $strat);
 
+    /**
+     * set_strat_questions
+     * 
+     * @param IQuestions $strat
+     */
     public function set_strat_questions(IQuestions $strat);
 
+    /**
+     * view_current_list
+     */
     public function view_current_list();
 
+    /**
+     * get_and_save_content
+     * 
+     * @param type $questions
+     * @param type $count
+     */
     public function get_and_save_content($questions, $count);
 
+    /**
+     * release_questions
+     * 
+     * @param type $param
+     */
     public function release_questions($param);
 }
 
+    /**
+     * IQuestions Interface
+     */
 interface IQuestions {
 
+    /**
+     * questions
+     * реализация обращения к источнику запроса 
+     */
     public function questions();
 }

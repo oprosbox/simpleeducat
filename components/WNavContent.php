@@ -11,7 +11,6 @@ require_once '/./WControlContent.php';
 class WNav extends WControlContent implements IStratCompCreate {
 
     public function create() {
-        $this->get_data_from_BD();
         ?>
         <div class="list-group">
         <div class="list-group-item"><?php echo $this->create_line_channels();?></div>
@@ -20,7 +19,10 @@ class WNav extends WControlContent implements IStratCompCreate {
         </div> 
         <?php
         }
-
+/**
+ * 
+ * @return string
+ */
     private function create_line_channels() {
     $result='<div class="list-unstyled media" style="overflow-x: auto">'; 
     foreach(parent::$channels as $key => $channel){
@@ -33,7 +35,10 @@ class WNav extends WControlContent implements IStratCompCreate {
       $result.='</div>';
       return $result;
     }
-
+/**
+ * 
+ * @return string
+ */
     private function create_line_playlists() {
         $result='<div class="list-unstyled media" style="overflow-x: auto">'; 
     foreach (parent::$playlists as $key => $playlist) {
@@ -53,7 +58,10 @@ class WNav extends WControlContent implements IStratCompCreate {
       $result.='</div>';
       return $result;
     }
-
+/**
+ * 
+ * @return string
+ */
     private function create_line_videos() {
         $result='<div class="list-unstyled media" style="overflow-x: auto">';
     foreach (parent::$videos as $key => $video) {
