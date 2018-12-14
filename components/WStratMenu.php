@@ -9,7 +9,10 @@ require_once '/./interfaces.php';
 require_once '/./../model/index.php';
 
 class WMenu implements IStratCompCreate {
-/**
+    
+    public function add_next() {}
+
+ /**
  *
  * @var array 
  */

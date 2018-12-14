@@ -9,6 +9,10 @@ require_once '/./WControlContent.php';
 
 
 class WNav extends WControlContent implements IStratCompCreate {
+    
+    public function add_next() {
+        
+    }
 
     public function create() {
         ?>

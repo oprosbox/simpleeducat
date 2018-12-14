@@ -1,5 +1,6 @@
 <?php
 
 interface IStratCompCreate{
-    function create();
+   public function create();
+   public function add_next();
 }
