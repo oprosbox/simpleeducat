@@ -32,7 +32,30 @@ class WBody extends WControlContent{
     }
 
     static public function set_id_video($id_item) {
-        parent::set_params(array('id_video'=>$id_item)); 
+        parent::set_params(array('id_video' => $id_item));
         CComponent::create('WBodyVideo');
     }
+
+    static public function update_list_channels() {
+        CComponent::update('WBodyListChannel',null);
+    }
+
+    static public function update_list_playlists() {
+        CComponent::update('WBodyChannel',null);
+    }
+
+    static public function update_list_videos() {
+        CComponent::update('WBodyPlaylist',null);
+    }
+
+    static public function update_nav($param) {
+        CComponent::update('WNav',$param);
+    }
+
+    public static function set_count($count) {
+        self::set_sz_update($count) ;
+        return self;
+    }
+
+
 }

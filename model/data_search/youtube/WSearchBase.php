@@ -90,7 +90,7 @@ class WSearchBase extends WAbstractSearch implements ISearch {
         return $compositeHead;
     }
 
-        private function get_statistic_base(&$content,$funct,$type='all') {
+    private function get_statistic_base(&$content,$funct,$type='all') {
         $id = null;
         foreach ($content as $value) {
             $id[] = $value->id;
@@ -108,8 +108,8 @@ class WSearchBase extends WAbstractSearch implements ISearch {
                 $content_val= array_shift($content_val);
                 $content_val->set_title($value['snippet']['title']);
                 $content_val->set_description($value['snippet']['description']);
-            if($type!=='playlist'){ $content_val->set_statistics($value['statistics']);}
-                
+                if($type!=='playlist'){ $content_val->set_statistics($value['statistics']);}
+                $content_val->set_thumbnails($value['snippet']['thumbnails']);
             }
         }
     }

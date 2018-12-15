@@ -29,6 +29,7 @@ class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUs
                 'title' => $row['title'],
                 'description' => $row['description'],
                 'type_source' => $row['type_source'],
+                'thumbnails' => json_decode($row['thumbnails']),
                 'statistics' => json_decode($row['statistics']));
         }
         $result_query->close();

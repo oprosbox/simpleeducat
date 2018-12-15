@@ -8,7 +8,8 @@ function update_cont_id($result, $item) {
     $description = $item['description'];
     $id_content = $item['id_content'];
     $id = $item['id'];
-    $result .= " WHEN $id THEN '$title', '$description', $id_content, NOW() \n";
+    $thumbnails=$item['thumbnails'];
+    $result .= " WHEN $id THEN '$title', '$description', $id_content, $thumbnails, NOW() \n";
     return $result;
 }
 
@@ -44,7 +45,7 @@ class WTableUpdate extends WSingletonConnect implements ITableUpdate {
 
     public function data_list_content($page_info) {
         $question = 'UPDATE `content` SET title,description,id_item,time_update = CASE `id_content` \n';
-        array_reduce($query, 'update_list_content', $question);
+        array_reduce($page_info, 'update_list_content', $question);
         $question .= ' ELSE title,description,id_item,time_update END;';
         $result=WLog::mysql_log(self::$link, $question); 
         return $result;
@@ -52,7 +53,7 @@ class WTableUpdate extends WSingletonConnect implements ITableUpdate {
 
     public function menu($themes) {
         $question = 'UPDATE `menu` SET title,description,id_parent,time_update = CASE `id_item` \n';
-        array_reduce($query, 'update_menu', $question);
+        array_reduce($themes, 'update_menu', $question);
         $question .= 'ELSE title,description,id_parent,time_update END;';
         $result=WLog::mysql_log(self::$link, $question); 
         return $result;
@@ -66,10 +67,10 @@ class WTableUpdate extends WSingletonConnect implements ITableUpdate {
         return $result;
     }
 
-    public function sources($keys) {
-        $question = 'UPDATE `sources` SET title,description,id_content,time_update = CASE `id` \n';
-        array_reduce($query, 'update_cont_id', $question);
-        $question .= 'ELSE title,description,id_content,time_update END;';
+    public function sources($sources) {
+        $question = 'UPDATE `sources` SET title,description,id_content,thumbnails,time_update = CASE `id` \n';
+        array_reduce($sources, 'update_cont_id', $question);
+        $question .= 'ELSE title,description,id_content,thumbnails,time_update END;';
         $result=WLog::mysql_log(self::$link, $question); 
         return $result;
     }

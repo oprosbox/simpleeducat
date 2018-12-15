@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `sources` (
   `title` VARCHAR(1000) NULL,
   `description` VARCHAR(10000) NULL,
   `statistics` VARCHAR(4000) NULL DEFAULT NULL,
+  `statistics` VARCHAR(4000) NULL DEFAULT NULL,
   `time_update` DATETIME,
   PRIMARY KEY (`id`),
   UNIQUE KEY(`id`),

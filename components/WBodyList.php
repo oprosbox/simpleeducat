@@ -9,12 +9,19 @@ require_once '/./WControlContent.php';
 
 class WBodyListChannel extends WControlContent implements IStratCompCreate {
 
-    public function add_next() {
-        $this->add_list_channels();
+    public function update($param=null) {
+        WControlContent::get_channels_from_BD_next();
+        $array = array_slice(WControlContent::$channels, -WControlContent::$sz_update, WControlContent::$sz_update, true);
+        foreach ($array as $key => $channel)
+            $this->list_channels($key, $channel);
     }
 
     public function create() {
-        $this->create_list_channels();
+        echo '<div class="list-group">';
+        foreach (WControlContent::$channels as $key => $channel) {
+            $this->list_channels($key, $channel);
+        }
+        echo '</div>';
     }
 
     private function list_channels($key, $channel) {
@@ -34,31 +41,23 @@ class WBodyListChannel extends WControlContent implements IStratCompCreate {
         <?php
     }
 
-    private function create_list_channels() {
-        echo '<div class="list-group">';
-        foreach (WControlContent::$channels as $key => $channel) {
-            $this->list_channels($key, $channel);
-        }
-        echo '</div>';
-    }
-
-    private function add_list_channels() {
-        $array = array_slice(WControlContent::$channels, -WControlContent::$sz_read['id_channel'], WControlContent::$sz_read['id_channel'], true);
-        foreach ($array as $key => $channel) {
-            $this->list_channels($key, $channel);
-        }
-    }
-
 }
 
 class WBodyChannel extends WControlContent implements IStratCompCreate {
 
-    public function add_next() {
-        $this->add_list_playlists();
+    public function update($param=null) {
+        WControlContent::get_playlists_from_BD_next();
+        $array = array_slice(WControlContent::$playlists, -WControlContent::$sz_update, WControlContent::$sz_update, true);
+        foreach ($array as $key => $playlist)
+            $this->item_playlist($key, $playlist);
     }
 
     public function create() {
-        $this->create_list_playlists();
+        echo '<div class="list-group">';
+        foreach (WControlContent::$playlists as $key => $playlist) {
+            $this->item_playlist($key, $playlist);
+        }
+        echo '</div>';
     }
 
     private function item_playlist($key, $playlist) {
@@ -80,31 +79,23 @@ class WBodyChannel extends WControlContent implements IStratCompCreate {
         <?php
     }
 
-    private function create_list_playlists() {
-        echo '<div class="list-group">';
-        foreach (WControlContent::$playlists as $key => $playlist) {
-            $this->item_playlist($key, $playlist);
-        }
-        echo '</div>';
-    }
-
-    private function add_list_playlists() {
-        $array = array_slice(WControlContent::$playlists, -WControlContent::$sz_read['id_playlist'], WControlContent::$sz_read['id_playlist'], true);
-        foreach ($array as $key => $playlist) {
-            $this->item_playlist($key, $playlist);
-        }
-    }
-
 }
 
 class WBodyPlaylist extends WControlContent implements IStratCompCreate {
 
-    public function add_next() {
-        $this->add_list_video();
+    public function update($param=null) {
+        WControlContent::get_videos_from_BD_next();
+        $array = array_slice(WControlContent::$videos, -WControlContent::$sz_update, WControlContent::$sz_update, true);
+        foreach ($array as $key => $video)
+            $this->item_video($key, $video);
     }
 
     public function create() {
-        $this->create_list_video();
+        echo '<div class="list-group">';
+        foreach (WControlContent::$videos as $key => $video) {
+            $this->item_video($key, $video);
+        }
+        echo '</div>';
     }
 
     private function item_video($key, $video) {
@@ -126,26 +117,11 @@ class WBodyPlaylist extends WControlContent implements IStratCompCreate {
         <?php
     }
 
-    private function create_list_video() {
-        echo '<div class="list-group">';
-        foreach (WControlContent::$videos as $key => $video) {
-            $this->item_video($key, $video);
-        }
-        echo '</div>';
-    }
-
-    private function add_list_video() {
-        $array = array_slice(WControlContent::$videos, -WControlContent::$sz_read['id_video'], WControlContent::$sz_read['id_video'], true);
-        foreach ($array as $key => $video) {
-            $this->item_video($key, $video);
-        }
-    }
-
 }
 
 class WBodyVideo extends WControlContent implements IStratCompCreate {
 
-    public function add_next() {
+    public function update($param=null) {
         
     }
 

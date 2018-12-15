@@ -10,7 +10,7 @@ require_once '/./../model/index.php';
 
 class WMenu implements IStratCompCreate {
     
-    public function add_next() {}
+    public function update($param=null) {}
 
  /**
  *

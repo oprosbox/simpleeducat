@@ -2,5 +2,5 @@
 
 interface IStratCompCreate{
    public function create();
-   public function add_next();
+   public function update($param);
 }

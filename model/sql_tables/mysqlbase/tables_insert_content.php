@@ -23,6 +23,11 @@ function data_to_string($result, $item) {
     } else {
         $res .= 'NULL,';
     }
+       if ($item->thumbnails != null) {
+        $res .= '\'' . WSingletonConnect::$link->escape_string(json_encode($item->thumbnails)) . '\',';
+    } else {
+        $res .= 'NULL,';
+    }
     if ($item->statistics != null) {
         $res .= '\'' . WSingletonConnect::$link->escape_string(json_encode($item->statistics)) . '\',';
     } else {
@@ -91,7 +96,7 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
     }
 
     public function sources($sources) {
-        $question = "INSERT INTO `sources` (id,id_parent,id_content,type_source,title,description,statistics,time_update) VALUES ";
+        $question = "INSERT INTO `sources` (id,id_parent,id_content,type_source,title,description,thumbnails,statistics,time_update) VALUES ";
         $question = array_reduce($sources, 'data_to_string', $question);
         $question = str_replace('$$', $this->id_content, $question);
         $question = rtrim($question, ',');
@@ -100,10 +105,10 @@ class WTableInsert extends WSingletonConnect implements ITableInsert {
                 . 'type_source = VALUES(type_source),'
                 . 'title= VALUES(title),'
                 . 'description=VALUES(description), '
+                . 'thumbnails=VALUES(thumbnails), '
                 . 'statistics=VALUES(statistics), '
                 . 'time_update=NOW();';
         $result=WLog::mysql_log(self::$link, $question); 
         return $result;
     }
-
 }

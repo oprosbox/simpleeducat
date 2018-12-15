@@ -34,10 +34,15 @@ class WFunctExample implements WFunct {
 class WPostList extends WCommand_List {//обработка POST запросов
 
     public function release_commands(...$name_post) {
+          foreach ($name_post as $name)
+            if (empty($_POST[$name])) {
+               return false;
+            }
         foreach ($name_post as $name)
             if (!empty($_POST[$name])) {
                 parent::start($name, $_POST[$name]);
             }
+            return true;
     }
 
 }
@@ -46,9 +51,14 @@ class WGetList extends WCommand_list {//обработка GET запросов
 
     public function release_commands(...$name_get) {
         foreach ($name_get as $name)
+            if (empty($_GET[$name])) {
+                return false;
+            }
+        foreach ($name_get as $name)
             if (!empty($_GET[$name])) {
                 parent::start($name, $_GET[$name]);
             }
+        return true;
     }
 
 }

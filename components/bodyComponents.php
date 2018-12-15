@@ -27,10 +27,16 @@ class CComponent extends WBaseComponent {
      * 
      * @return string
      */
-    static public function create($params) {
-        WBaseComponent::creator($params);
-        WBaseComponent::$strat_create = new $params;
+    static public function create($type) {
+        WBaseComponent::creator($type);
+        WBaseComponent::$strat_create = new $type;
         return WBaseComponent::$strat_create->create();
+    }
+    
+    static public function update($type,$params) {
+        WBaseComponent::creator($type);
+        WBaseComponent::$strat_create = new $type;
+        return WBaseComponent::$strat_create->update($params);
     }
 
 }

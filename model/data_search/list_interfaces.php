@@ -3,6 +3,7 @@
 require_once '/./search_interfaces.php';
 
 class WContent {
+  
 
     public $id_parent;
     public $type;
@@ -10,7 +11,17 @@ class WContent {
     public $title;
     public $description;
     public $statistics;
+    public $thumbnails;
 
+      public function get_thumbnails() {
+        return $this->thumbnails;
+    }
+
+    public function set_thumbnails($thumbnails) {
+        $this->thumbnails = $thumbnails;
+        return $this;
+    }
+    
     public function get_id_parent() {
         return $this->id_parent;
     }
