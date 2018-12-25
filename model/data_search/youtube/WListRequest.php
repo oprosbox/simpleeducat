@@ -37,8 +37,7 @@ class WCompositeRequest extends WCompositeContent implements IRequest {
     public function build_tree() {
         set_time_limit(300);
         $this->content = self::$search_obj->search($this);
-        self::$search_obj->get_statistics($this->content);
-        var_dump($this->content); 
+        self::$search_obj->get_statistics($this->content); 
         foreach ($this->content as $value) {
             $value->build_tree();
         }

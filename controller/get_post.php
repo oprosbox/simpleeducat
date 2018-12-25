@@ -31,7 +31,7 @@ class WFunctExample implements WFunct {
     }
 }
 
-class WPostList extends WCommand_List {//обработка POST запросов
+class WPostList extends WCommandList {//обработка POST запросов
 
     public function release_commands(...$name_post) {
           foreach ($name_post as $name)
@@ -47,7 +47,7 @@ class WPostList extends WCommand_List {//обработка POST запросо�
 
 }
 
-class WGetList extends WCommand_list {//обработка GET запросов
+class WGetList extends WCommandlist {//обработка GET запросов
 
     public function release_commands(...$name_get) {
         foreach ($name_get as $name)

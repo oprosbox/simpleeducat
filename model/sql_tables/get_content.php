@@ -6,7 +6,12 @@ require_once '/./mysqlbase/single_connect.php';
  * 
  */
 class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUser {
-/**
+    
+    public function __construct() {
+        self::create();  
+    }
+
+    /**
  * 
  * @param mysql_array $result_query[]
  * @return array
@@ -104,7 +109,7 @@ class WYoutubeDataGetUser extends WSingletonConnect implements IYoutubeDataGetUs
         $limit_str = "";
         $type_str = "";
         if ($limit != null) {
-            $pos = $num * $limit;
+            $pos = $num;
             $limit_str = "LIMIT $pos,$limit";
         }
         if ($type != null) {
@@ -144,7 +149,7 @@ class WYoutubeDataGetAdmin extends WYoutubeDataGetUser implements IYoutubeDataGe
         $limit_str = "";
         $type_str = "";
         if ($limit != null) {
-            $pos = $num * $limit;
+            $pos = $num;
             $limit_str = "LIMIT $pos,$limit";
         }
         if ($type != null) {
@@ -165,7 +170,7 @@ class WYoutubeDataGetAdmin extends WYoutubeDataGetUser implements IYoutubeDataGe
         $list = implode(',', $id_sources);
         $limit_str = "";
         if ($limit != null) {
-            $pos = $num * $limit;
+            $pos = $num;
             $limit_str = "LIMIT $pos,$limit";
         }
         $query = "SELECT * FROM sources WHERE (id IN($list)) $limit_str";

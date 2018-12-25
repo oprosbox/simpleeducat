@@ -12,25 +12,31 @@ class WGetControl {
     public $page_update;
     
     public function __construct() {
-        $this->get_create = new WGetList();
-        $this->get_update = new WGetList();
-        $this->page_create = new WCreatePage();
-        $this->page_update = new WUpdatePage();
-        //create 
+        //set funct,id 
+        $this->list_set = new WGetList();
+        $this->set_content = new WSetContent();
         $list_create = new WFunctList;
-        $list_create->add_operation($this->page_create->type);
-        $list_create->add_operation($this->page_create);
-        $this->get_create->add_method('id', $this->page_create->id);
-        $this->get_create->add_method('type', $list_create);
-        $this->get_create->release_commands('id','type');
-        //update
+        $list_create->add_operation($this->set_content->funct);
+        $list_create->add_operation($this->set_content);
+        $this->list_set->add_method('id', $this->set_content->id);
+        $this->list_set->add_method('funct', $list_create);
+        $this->list_set->release_commands('id','funct');
+        //update funct,position
+        $this->list_update = new WGetList();
+        $this->update_content = new WUpdatePage();
         $list_update = new WFunctList;
-        $list_update->add_operation($this->page_update->count);
-        $list_update->add_operation($this->page_update);
-        $this->get_update->add_method('type', $this->page_update->type);
-        $this->get_update->add_method('position', $list_update);
-        $this->get_update->release_commands('type','position');   
+        $list_update->add_operation($this->update_content->funct);
+        $list_update->add_operation($this->update_content);
+        $this->list_update->add_method('position', $this->update_content->position);
+        $this->list_update->add_method('funct', $list_update);
+        $this->list_update->release_commands('position','funct');   
     }
 }
 
+session_start();
+WControlContent::create_from_session();
+
 $page = new WGetControl();
+
+//if(empty($_GET['funct'])){echo '11111111111';}else{echo '<p>'.$_GET['funct'].'<p>';}
+//if(empty($_GET['id'])){echo '2222222222222';}else{echo '<p>'.$_GET['id'].'<p>';}

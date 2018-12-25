@@ -109,7 +109,10 @@ class WSearchBase extends WAbstractSearch implements ISearch {
                 $content_val->set_title($value['snippet']['title']);
                 $content_val->set_description($value['snippet']['description']);
                 if($type!=='playlist'){ $content_val->set_statistics($value['statistics']);}
-                $content_val->set_thumbnails($value['snippet']['thumbnails']);
+                $add_arr['default']=$value['snippet']['thumbnails']['default'];
+                $add_arr['standard']=$value['snippet']['thumbnails']['standard'];
+                $add_arr['maxres']=$value['snippet']['thumbnails']['maxres'];
+                $content_val->set_thumbnails($add_arr);
             }
         }
     }

@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `sources` (
   `type_source` VARCHAR(100) NULL,
   `title` VARCHAR(1000) NULL,
   `description` VARCHAR(10000) NULL,
-  `statistics` VARCHAR(4000) NULL DEFAULT NULL,
+  `thumbnails` VARCHAR(4000) NULL DEFAULT NULL,
   `statistics` VARCHAR(4000) NULL DEFAULT NULL,
   `time_update` DATETIME,
   PRIMARY KEY (`id`),

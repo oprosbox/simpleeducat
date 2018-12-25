@@ -6,4 +6,4 @@
  * and open the template in the editor.
  */
 
-require_once '/./WBody.php';
+require_once '/./bodyComponents.php';

@@ -3,43 +3,26 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/simpleeducat/controller/controller.php</file>
-            <file>file:/C:/simpleeducat/components/WBodyList.php</file>
-            <file>file:/C:/simpleeducat/SQLQuestions/create_tables.sql</file>
-            <file>file:/C:/simpleeducat/controller/commands.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/search_interfaces.php</file>
-            <file>file:/C:/simpleeducat/model/data_search/list_interfaces.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_create_content.php</file>
-            <file>file:/C:/simpleeducat/components/WBody.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_insert_content.php</file>
-            <file>file:/C:/simpleeducat/components/WStratMenu.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_delete_content.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/get_content.php</file>
-            <file>file:/C:/simpleeducat/components/WBaseComponent.php</file>
             <file>file:/C:/simpleeducat/components/WNavContent.php</file>
             <file>file:/C:/simpleeducat/model/sql_tables/strat_questions.php</file>
             <file>file:/C:/simpleeducat/model/sql_tables/index.php</file>
-            <file>file:/C:/simpleeducat/components/interfaces.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/tables_update_content.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/set_content.php</file>
             <file>file:/C:/simpleeducat/model/index.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/set_content.php</file>
+            <file>file:/C:/simpleeducat/components/WBodyList.php</file>
+            <file>file:/C:/simpleeducat/SQLQuestions/create_tables.sql</file>
             <file>file:/C:/simpleeducat/model/sql_tables/interfaces.php</file>
+            <file>file:/C:/simpleeducat/SQLQuestions/create_menu.sql</file>
             <file>file:/C:/simpleeducat/model/data_search/youtube/WListContent.php</file>
-            <file>file:/C:/simpleeducat/components/index.php</file>
-            <file>file:/C:/simpleeducat/controller/get_post.php</file>
-            <file>file:/C:/simpleeducat/components/WControlContent.php</file>
             <file>file:/C:/simpleeducat/logs/WLog.php</file>
+            <file>file:/C:/simpleeducat/components/WBody.php</file>
             <file>file:/C:/simpleeducat/model/data_search/youtube/WViewStrat.php</file>
             <file>file:/C:/simpleeducat/model/data_search/youtube/WAbstractSearch.php</file>
-            <file>file:/C:/simpleeducat/controller/controllerClasses.php</file>
             <file>file:/C:/simpleeducat/index.php</file>
-            <file>file:/C:/simpleeducat/config.php</file>
             <file>file:/C:/simpleeducat/model/data_search/youtube/WSearchBase.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/strat_save.php</file>
             <file>file:/C:/simpleeducat/components/bodyComponents.php</file>
+            <file>file:/C:/simpleeducat/model/sql_tables/get_content.php</file>
             <file>file:/C:/simpleeducat/model/data_search/youtube/WFactoryList.php</file>
             <file>file:/C:/simpleeducat/model/data_search/youtube/WListRequest.php</file>
-            <file>file:/C:/simpleeducat/model/sql_tables/mysqlbase/single_connect.php</file>
         </group>
     </open-files>
 </project-private>

@@ -1,8 +1,9 @@
 <?php
 
 require_once 'get_post.php';
+require_once '/./../components/index.php';
 
-class WGetParam extends WFunct {
+class WGetParam implements WFunct {
 
     public function get_param() {
         return $this->param;
@@ -16,67 +17,80 @@ class WGetParam extends WFunct {
 
 }
 
-class WCreatePage extends WFunct {
+class WSetContent implements WFunct {
 
-    public $type;
+    public $funct;
     public $id;
+    protected $params;
 
     public function __construct() {
-        $this->type = new WGetParam;
+        $this->funct = new WGetParam;
         $this->id = new WGetParam;
     }
 
+    public function set_channel($id){
+    $this->params['id_channel']=$id;
+    }
+
+    public function set_playlist($id){
+    $this->params['id_playlist']=$id;
+    }
+    
+    public function set_video($id){
+    $this->params['id_video']=$id;   
+    }
+    
+    public function set_item_menu($id){
+    $this->params['id_item']=$id; 
+    }
+    
     public function operation($value) {
-        switch ($this->type->get_param()) {
-            case 'set#channels': {
-                    WBody::set_id_item($this->id->get_param());
-                    break;
-                }
-            case 'set#playlists': {
-                    WBody::set_id_channel($this->id->get_param());
-                    break;
-                }
-            case 'set#videos': {
-                    WBody::set_id_playlist($this->id->get_param());
-                    break;
-                }
-            case 'set#video': {
-                    WBody::set_id_video($this->id->get_param());
-                    break;
-                }
-        }
+      $funct=$this->funct->get_param();
+      $this->$funct($this->id->get_param()); 
+      WControlContent::set_params($this->params); 
     }
 }
 
-class WUpdatePage extends WFunct {
+class WUpdatePage implements WFunct {
 
-    public $type;
-    public $count;
+    public $funct;
+    public $position;
+    
     public function __construct() {
-        $this->type = new WGetParam;
-        $this->count= new WGetParam;
+        $this->funct = new WGetParam;
+        $this->position= new WGetParam;
     }
 
+    public function update_line_channels($count){
+     CComponent::update('WNavChannels', $count);  
+    }
+
+    public function update_line_playlists($count){
+     CComponent::update('WNavPlaylists', $count);    
+    }
+    
+    public function update_line_videos($count){
+     CComponent::update('WNavVideos', $count);    
+    }
+    
+    public function update_page_channels($count){
+      CComponent::update('WBodyListChannel', $count);   
+    }
+
+    public function update_page_playlists($count){
+      CComponent::update('WBodyChannel', $count);   
+    }
+    
+    public function update_page_videos($count){
+      CComponent::update('WBodyPlaylist', $count);   
+    }
+    
+     public function update_page_video($count){
+      CComponent::update('WBodyVideo', $count);   
+    }
+    
     public function operation($value) {
-        WBody::set_count($this->count->get_param());
-        switch ($this->type->get_param()) {
-            case 'list#channels': {
-                    WBody::update_list_channels();
-                    break;
-                }
-            case 'list#playlists': {
-                    WBody::update_list_playlists();
-                    break;
-                }
-            case 'list#videos': {
-                    WBody::update_list_videos();
-                    break;
-                }
-            case 'nav#channels':
-            case 'nav#playlists':
-            case 'nav#videos': {
-                    WBody::update_nav($this->type->get_param());
-                }
-        }
+      $funct=$this->funct->get_param();
+      $this->$funct($this->position->get_param()); 
     }
 }

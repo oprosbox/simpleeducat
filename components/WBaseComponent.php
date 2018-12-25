@@ -11,7 +11,9 @@ require_once '/./../model/index.php';
 class WBaseComponent {
 
     static public function creator($params) {
-       if(empty(self::$strat_data_get)){self::$strat_data_get = new WYoutubeDataGetUser;}   
+       if(empty(self::$strat_data_get)){
+           self::$strat_data_get = new WYoutubeDataGetUser;
+       }   
     }
 
     static public function create($params) {

@@ -5,7 +5,20 @@ require_once '/./WBaseComponent.php';
 require_once '/./../model/index.php';
 
 class WControlContent {
-
+    
+    static public function create_from_session(){ 
+    if(!empty($_SESSION['params'])){self::$params =$_SESSION['params'];}
+    if(!empty($_SESSION['channels'])) {self::$channels=$_SESSION['channels'];}
+    if(!empty($_SESSION['playlists'])) {self::$playlists=$_SESSION['playlists'];}
+    if(!empty($_SESSION['videos'])) {self::$videos=$_SESSION['videos'];}}
+            
+    static public function update_to_session(){ 
+    $_SESSION['params']=self::$params;
+    $_SESSION['channels']=self::$channels;
+    $_SESSION['playlists']=self::$playlists;
+    $_SESSION['videos']=self::$videos;  
+    }
+    
     static public function get_params() {
         return self::$params;
     }
@@ -15,17 +28,21 @@ class WControlContent {
         self::$params['id_channel'] = $id_channel;
         self::$params['id_playlist'] = $id_playlist;
         self::$params['id_video'] = $id_video;
+        self::update_to_session();
     }
 
     static public function get_data_from_BD() {
         if ((!empty(self::$params['id_item'])) && (empty(self::$params['id_channel']))) {
             self::get_data_from_BD_id_item();
+            self::update_to_session();
             return;
         } else if ((!empty(self::$params['id_channel'])) && (empty(self::$params['id_playlist']))) {
             self::get_data_from_BD_id_channel();
+            self::update_to_session();
             return;
         } else if ((!empty(self::$params['id_playlist'])) && (empty(self::$params['id_video']))) {
             self::get_data_from_BD_id_playlist();
+            self::update_to_session();
             return;
         }
     }
@@ -34,56 +51,62 @@ class WControlContent {
         $pos = count(self::$channels);
         $channels = WBaseComponent::$strat_data_get->data_list_content(self::$params['id_item'], "youtube#channel", $pos, self::$step);
         if (empty($channels)) {
-            self::$sz_update =0;
             return null;
         }
         self::$channels = array_merge(self::$channels, $channels);
-        self::$sz_update= count($channels);
-        return self::$sz_update;
+        self::update_to_session();
+        return true;
     }
 
     static public function get_playlists_from_BD_next() {
         $pos = count(self::$playlists);
         $playlists = WBaseComponent::$strat_data_get->sources_by_parent(self::$params['id_channel'], "youtube#playlist", $pos, self::$step);
         if (empty($playlists)) {
-            self::$sz_update =0;
             return null;
         }
         self::$playlists = array_merge(self::$playlists, $playlists);
-        self::$sz_update = count($playlists);
-        return self::$sz_update;
+        self::update_to_session();
+        return true;
     }
 
     static public function get_videos_from_BD_next() {
         $pos = count(self::$videos);
         $videos = WBaseComponent::$strat_data_get->sources_by_parent(self::$params['id_playlist'], "youtube#video", $pos, self::$step);
         if (empty($videos)) {
-            self::$sz_update =0;
             return null;
         }
         self::$videos = array_merge(self::$videos, $videos);
-        self::$sz_update = count($videos);
-        return self::$sz_update;
+        self::update_to_session();
+        return true;
     }
 
     static public function set_params($params) {
         WBaseComponent::create(null);
-        if (empty($params['id_item'])) {
-            self::set_array(null, null, null, null);
-        } else if (empty($params['id_channel'])) {
-            self::set_array($params['id_item'], null, null, null);
-        } else if (empty($params['id_playlist'])) {
-            self::set_array($params['id_item'], $params['id_channel'], null, null);
-        } else if (empty($params['id_video'])) {
-            self::set_array($params['id_item'], $params['id_channel'], $params['id_playlist'], null);
-        } else {
-            self::set_array($params['id_item'], $params['id_channel'], $params['id_playlist'], $params['id_video']);
+        if ((!empty($params['id_item']))&&(empty($params['id_channel']))) {
+            self::$params['id_item']=$params['id_item'];
+            self::$params['id_channel']=null;
+            self::$params['id_playlist']=null;
+            self::$params['id_video']=null;
+        } 
+        if ((!empty($params['id_channel']))&&(empty($params['id_playlist']))) {
+            self::$params['id_channel']=$params['id_channel'];
+            self::$params['id_playlist']=null;
+            self::$params['id_video']=null;
+        } 
+        if ((!empty($params['id_playlist']))&&(empty($params['id_video']))) {
+            self::$params['id_playlist']=$params['id_playlist'];
+            self::$params['id_video']=null;
+        } 
+        if(!empty($params['id_video']))
+        {   self::$params['id_video']=$params['id_video'];
+        self::update_to_session();
             return;
         }
         self::get_data_from_BD();
     }
 
     static protected function get_data_id_item() {
+        
         self::$channels = WBaseComponent::$strat_data_get->data_list_content(self::$params['id_item'], "youtube#channel", 0, self::$step);
         $key = array_keys(array_slice(self::$channels, 0, 1));
         self::$params['id_channel'] = $key[0];
@@ -125,10 +148,11 @@ class WControlContent {
     }
 
     static protected $params = array('id_item' => null, 'id_channel' => null, 'id_playlist' => null, 'id_video' => null);
-    static protected $sz_update = 0;
     static protected $channels;
     static protected $playlists;
     static protected $videos;
     static protected $step = 10;
 
 }
+
+

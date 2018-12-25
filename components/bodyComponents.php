@@ -6,7 +6,10 @@
  * and open the template in the editor.
  */
 require_once '/./WBaseComponent.php';
-require_once '/./WBodyList.php';
+require_once '/./WBodyListChannel.php';
+require_once '/./WBodyChannel.php';
+require_once '/./WBodyPlaylist.php';
+require_once '/./WBodyVideo.php';
 require_once '/./WNavContent.php';
 require_once '/./WStratMenu.php';
 /**
@@ -16,7 +19,8 @@ class CComponent extends WBaseComponent {
 
     /**
      * 
-     * @param type $params 
+     * @param string $params
+     * @param string $type 
      * принимает значения:
      * WBodyVideo, 
      * WBodyPlaylist, 
@@ -27,11 +31,6 @@ class CComponent extends WBaseComponent {
      * 
      * @return string
      */
-    static public function create($type) {
-        WBaseComponent::creator($type);
-        WBaseComponent::$strat_create = new $type;
-        return WBaseComponent::$strat_create->create();
-    }
     
     static public function update($type,$params) {
         WBaseComponent::creator($type);
