@@ -1,4 +1,5 @@
-<?php require_once '/./../library/functions.php'; ?>
+<?php require_once '/./../library/functions.php';  ?>
+
 <script>
 
     var index = {flg_line_playlist: {flg: true},
@@ -64,77 +65,97 @@
     }
 
     function scroll_page_content(flg_line, funct, class_res) {
-        $('#page_content').off('scroll');
-        $('#page_content').on('scroll', function (event) {
-            var element = $('#page_content');
-            var val = element.get(0).scrollHeight - element.get(0).clientHeight - element.scrollTop();
+        $(document).off('scroll');
+        $(document).on('scroll', function (event) {
+            var element = $(document);
+            var val = element.height() - $(window).height()-element.scrollTop();
             if (val < 3) {
                 add_content(flg_line, funct, class_res, 'page_content');
             }
         });
     }
 
-    function click_on_nav_playlist() {
-        $("#list_playlists").on('click', '.nav_playlist', function ()
-        {
-            var id = $(this).attr('id');
-            id = id.slice(5);
-            str_address = '<?php echo get_home_url() ?>' + '/controller/controller.php';
-            $.get(str_address, 'funct=set_playlist&id=' + id).done(function (data) {
-                index.flg_line_video.flg = true;
-                create_content(index.flg_line_video, 'update_line_videos', 'nav_video', 'list_videos');
-                index.flg_page_video.flg = true;
-                create_content(index.flg_page_video, 'update_page_videos', 'page_video', 'page_content');
-                scroll_page_content(index.flg_page_video, 'update_page_videos', 'page_video');
-            });
+    function get_playlist() {
+        var id = $(this).attr('id');
+        id = id.slice(5);
+        str_address = '<?php echo get_home_url() ?>' + '/controller/controller.php';
+        $.get(str_address, 'funct=set_channel&id=' + id).done(function (data) {
+            index.flg_line_playlist.flg = true;
+            create_content(index.flg_line_playlist, 'update_line_playlists', 'nav_playlist', 'list_playlists');
+            index.flg_line_video.flg = true;
+            create_content(index.flg_line_video, 'update_line_videos', 'nav_video', 'list_videos');
+            index.flg_page_playlist.flg = true;
+            create_content(index.flg_page_playlist, 'update_page_playlists', 'page_playlist', 'page_content');
+            scroll_page_content(index.flg_page_playlist, 'update_page_playlists', 'page_playlist');
         });
     }
 
-    function click_on_nav_channel() {
-        $("#list_channels").on('click', '.nav_channel', function ()
-        {
-            var id = $(this).attr('id');
-            id = id.slice(5);
-            str_address = '<?php echo get_home_url() ?>' + '/controller/controller.php';
-            $.get(str_address, 'funct=set_channel&id=' + id).done(function (data) {
-                index.flg_line_playlist.flg = true;
-                create_content(index.flg_line_playlist, 'update_line_playlists', 'nav_playlist', 'list_playlists');
-                index.flg_line_video.flg = true;
-                create_content(index.flg_line_video, 'update_line_videos', 'nav_video', 'list_videos');
-                index.flg_page_playlist.flg = true;
-                create_content(index.flg_page_playlist, 'update_page_playlists', 'page_playlist', 'page_content');
-                scroll_page_content(index.flg_page_playlist, 'update_page_playlists', 'page_playlist');
-            });
+    function get_video() {
+        var id = $(this).attr('id');
+        id = id.slice(5);
+        str_address = '<?php echo get_home_url() ?>' + '/controller/controller.php';
+        $.get(str_address, 'funct=set_playlist&id=' + id).done(function (data) {
+            index.flg_line_video.flg = true;
+            create_content(index.flg_line_video, 'update_line_videos', 'nav_video', 'list_videos');
+            index.flg_page_video.flg = true;
+            create_content(index.flg_page_video, 'update_page_videos', 'page_video', 'page_content');
+            scroll_page_content(index.flg_page_video, 'update_page_videos', 'page_video');
         });
     }
 
-    function click_on_nav_video() {
-        $("#list_videos").on('click', '.nav_video', function ()
-        {
-            var id = $(this).attr('id');
-            id = id.slice(5);
-            str_address = '<?php echo get_home_url() ?>' + '/controller/controller.php';
-            $.get(str_address, 'funct=set_video&id=' + id).done(function (data) {
-                index.flg_page_video.flg = true;
-                create_content(index.flg_page_video, 'update_page_video', 'page_video', 'page_content');
-            });
+    function get_video_info() {
+        var id = $(this).attr('id');
+        id = id.slice(5);
+        str_address = '<?php echo get_home_url() ?>' + '/controller/controller.php';
+        $.get(str_address, 'funct=set_video&id=' + id).done(function (data) {
+            index.flg_page_video.flg = true;
+            create_content(index.flg_page_video, 'update_page_video', 'page_video', 'page_content');
+            $(document).off('scroll');
         });
+    }
+
+    function get_item() {
+        var id = $(this).attr('id');
+        id = id.slice(5);
+        str_address = '<?php echo get_home_url() ?>' + '/controller/controller.php';
+        $.get(str_address, 'funct=set_item_menu&id=' + id).done(function (data) {
+            index.flg_line_channel.flg = true;
+            create_content(index.flg_line_channel, 'update_line_channels', 'nav_channel', 'list_channels');
+            scroll_list_content(index.flg_line_channel, 'update_line_channels', 'nav_channel', 'list_channels');
+            index.flg_line_playlist.flg = true;
+            create_content(index.flg_line_playlist, 'update_line_playlists', 'nav_playlist', 'list_playlists');
+            scroll_list_content(index.flg_line_playlist, 'update_line_playlists', 'nav_playlist', 'list_playlists');
+            index.flg_line_video.flg = true;
+            create_content(index.flg_line_video, 'update_line_videos', 'nav_video', 'list_videos');
+            scroll_list_content(index.flg_line_video, 'update_line_videos', 'nav_video', 'list_videos');
+            index.flg_page_channel.flg = true;
+            create_content(index.flg_page_channel, 'update_page_channels', 'page_channel', 'page_content');
+            scroll_page_content(index.flg_page_channel, 'update_page_channels', 'page_channel');
+        });
+    }
+
+    function click_on_nav() {
+        $("#list_playlists").on('click', '.nav_playlist', get_video);
+        $("#list_channels").on('click', '.nav_channel', get_playlist);
+        $("#list_videos").on('click', '.nav_video', get_video_info);
+    }
+
+    function click_on_page_buttons() {
+        $("#page_content").on('click', '.videos', get_video)
+                .on('click', '.info-video', get_video_info)
+                .on('click', '.channels', get_item)
+                .on('click', '.playlists', get_playlist);
+    }
+    
+    function click_on_menu(){
+      $(".menu_item").on('click', get_item);  
     }
 
     $(document).ready(function () {
         create_lists();
-        click_on_nav_channel();
-        click_on_nav_playlist();
-        click_on_nav_video();
-        add_content(index.flg_line_channel, 'update_line_channels', 'nav_channel', 'list_channels');
-        add_content(index.flg_line_playlist, 'update_line_playlists', 'nav_playlist', 'list_playlists');
-        add_content(index.flg_line_video, 'update_line_videos', 'nav_video', 'list_videos');
-        add_content(index.flg_page_playlist, 'update_page_playlists', 'page_playlist', 'page_content');
-        scroll_list_content(index.flg_line_channel, 'update_line_channels', 'nav_channel', 'list_channels');
-        scroll_list_content(index.flg_line_playlist, 'update_line_playlists', 'nav_playlist', 'list_playlists');
-        scroll_list_content(index.flg_line_video, 'update_line_videos', 'nav_video', 'list_videos');
-        scroll_page_content(index.flg_page_playlist, 'update_page_playlists', 'page_playlist');
-
-    });
+        click_on_nav();
+        click_on_page_buttons();
+        click_on_menu();
+        $("#item_1").click(); });
 
 </script>

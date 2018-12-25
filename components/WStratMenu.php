@@ -10,7 +10,7 @@ require_once '/./../model/index.php';
 
 class WMenu implements IStratCompCreate {
     
-    public function update($param=null) {}
+    public function update($param=null) {$this->create();}
 
  /**
  *
@@ -40,7 +40,7 @@ class WMenu implements IStratCompCreate {
           '</div></div>';
           return $out;
         } else {$btn_class=$this->button_classes[$ind];
-                return '<button class="'.$btn_class.'" type="button">'.$title.'</button>';}
+                return '<button id="item_'.$key.'" class="menu_item '.$btn_class.'" type="button">'.$title.'</button>';}
     }
 
     private function create_list($id,$ind) {

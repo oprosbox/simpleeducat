@@ -18,7 +18,7 @@ class WBodyListChannel extends WControlContent implements IStratCompCreate {
 
     private function list_channels($key, $channel) {
         ?>
-        <div class="list-group-item mx-3 bg-dark page_channel" id="<?php echo $key ?>" style="min-width: 350px">
+        <div class="list-group-item bg-dark page_channel" id="<?php echo $key ?>" style="min-width: 350px">
             <div class="row" >
                 <div class="col-lg-3 col-md-4 col-sm-12 p-2">
                 <img class="align-self-start rounded "  alt="<?php echo $channel['title'] ?>" src="<?php echo $channel['thumbnails']->medium->url ?>" 
@@ -29,10 +29,9 @@ class WBodyListChannel extends WControlContent implements IStratCompCreate {
                     <div class="card bg-secondary">
                         <div class="card-header">
                             <h5><?php echo $channel['title'] ?></h5>
-                        <button id="chpl_<?php echo $key ?>" type="button" class="btn btn-primary">Плейлисты</button>
+                        <button id="chpl_<?php echo $key ?>" type="button" class="btn btn-primary playlists">Плейлисты</button>
                         </div>
-                        <div class="card-body">
-                        
+                        <div class="card-body" style="max-height:150px;overflow-y: auto">
                             <h6><?php echo $channel['description'] ?></h6>
                         </div>
                     </div></div>

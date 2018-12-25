@@ -85,7 +85,7 @@ class WUpdatePage implements WFunct {
       CComponent::update('WBodyPlaylist', $count);   
     }
     
-     public function update_page_video($count){
+    public function update_page_video($count){
       CComponent::update('WBodyVideo', $count);   
     }
     
